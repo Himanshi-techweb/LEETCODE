@@ -5,9 +5,9 @@ public:
         if(dp[i][j]!=-1)return dp[i][j];
         int mscore=INT_MAX;
         for(int k=i+1;k<j;k++){
-          dp[i][j]=min(mscore,arr[i]*arr[j]*arr[k]+solve(arr,i,k,dp)+solve(arr,k,j,dp));
-          mscore=min(dp[i][j],mscore);
+          mscore=min(mscore,arr[i]*arr[j]*arr[k]+solve(arr,i,k,dp)+solve(arr,k,j,dp));
         }
+        dp[i][j]=mscore;
         return mscore;
     }
     int minScoreTriangulation(vector<int>& values) {
