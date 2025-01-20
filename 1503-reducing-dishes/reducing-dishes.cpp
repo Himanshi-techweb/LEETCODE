@@ -12,7 +12,7 @@ public:
         int n=arr.size();
         vector<vector<int>>dp(n+1,vector<int> (n+1,0));
         for(int i=n-1;i>=0;i--){
-            for(int time=i;time>=0;time--){
+            for(int time=n-1;time>=0;time--){
                 int include=arr[i]*(time+1)+dp[i+1][time+1];
                 int exclude=dp[i+1][time];
                 dp[i][time]=max(include,exclude);
