@@ -11,19 +11,36 @@ public:
     //     dp[curr][prev+1]=max(include,exclude);
     //     return max(include,exclude);
     // }
+    // int solveTab(vector<int> &arr,int n){
+    //    vector<vector<int>>dp(n+1,vector<int>(n+1,0));
+    //    for(int curr=n-1;curr>=0;curr--){
+    //     for(int prev=curr-1;prev>=-1;prev--){
+    //         int include=0;
+    //         if(prev==-1 || arr[curr]>arr[prev]){
+    //             include=1+dp[curr+1][curr+1];
+    //         }
+    //         int exclude=dp[curr+1][prev+1];
+    //         dp[curr][prev+1]=max(include,exclude);
+    //     }
+    //    }
+    //    return dp[0][0];
+    // }
     int solveTab(vector<int> &arr,int n){
-       vector<vector<int>>dp(n+1,vector<int>(n+1,0));
+    //    vector<vector<int>>dp(n+1,vector<int>(n+1,0));
+       vector<int> currrow(n+1,0);
+       vector<int> nextrow(n+1,0);
        for(int curr=n-1;curr>=0;curr--){
         for(int prev=curr-1;prev>=-1;prev--){
             int include=0;
             if(prev==-1 || arr[curr]>arr[prev]){
-                include=1+dp[curr+1][curr+1];
+                include=1+nextrow[curr+1];
             }
-            int exclude=dp[curr+1][prev+1];
-            dp[curr][prev+1]=max(include,exclude);
+            int exclude=nextrow[prev+1];
+            currrow[prev+1]=max(include,exclude);
         }
+        nextrow=currrow;
        }
-       return dp[0][0];
+       return nextrow[0];
     }
     int lengthOfLIS(vector<int>& nums) {
       int n=nums.size();
