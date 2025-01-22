@@ -37,6 +37,27 @@ public:
         }return dp[1][0];
     }
 
+    // int solveTab(vector<int>&arr1,vector<int>&arr2){   
+    //     for(int i=arr1.size()-1;i>=1;i--){
+    //         int next1=arr1[i+1]
+    //         for(int check=1;check>=0;check--){ 
+    //                int ans=INT_MAX; 
+    //                int prev1=arr1[i-1];
+    //                int prev2=arr2[i-1];
+    //                if(check)swap(prev1,prev2);
+    //                //swap
+    //                if(prev1<arr1[i] && prev2<arr2[i]){
+    //                 ans=next[0];
+    //                }
+    //                if(prev2<arr1[i] && prev1<arr2[i]){
+    //                 ans=min(ans,1+next[1]);
+    //                }
+    //                curr[check]=ans;
+    //         }
+    //         next=curr;
+    //     }return next[0];
+    // }
+
 
     int minSwap(vector<int>&nums1, vector<int>& nums2) {
        nums1.insert(nums1.begin(),-1);
