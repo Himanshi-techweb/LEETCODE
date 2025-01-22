@@ -17,22 +17,41 @@ public:
     //     return dp[i][tar]= include || exclude; 
     // } 
 
+    // bool solveTab(vector<int> &arr,int tar){
+    //     vector<vector<bool>>dp(arr.size()+1,vector<bool>(tar+1,false));
+    //     for(int i=0;i<arr.size();i++){
+    //         dp[i][0]=true;
+    //     }
+    //     for(int i=arr.size()-1;i>=0;i--){
+    //         for(int j=1;j<=tar;j++){
+    //           if((j-arr[i])>=0){
+    //             dp[i][j]=dp[i+1][j-arr[i]] || dp[i+1][j];
+    //           }
+    //           else{
+    //             dp[i][j]=dp[i+1][j];
+    //           }
+    //         }
+    //     }
+    //     return dp[0][tar];
+    // } 
     bool solveTab(vector<int> &arr,int tar){
-        vector<vector<bool>>dp(arr.size()+1,vector<bool>(tar+1,false));
-        for(int i=0;i<arr.size();i++){
-            dp[i][0]=true;
-        }
+        // vector<vector<bool>>dp(arr.size()+1,vector<bool>(tar+1,false));
+        vector<bool> curr(tar+1,false);
+        vector<bool> next(tar+1,false);
+        curr[0]=true;
+        next[0]=true;
         for(int i=arr.size()-1;i>=0;i--){
             for(int j=1;j<=tar;j++){
               if((j-arr[i])>=0){
-                dp[i][j]=dp[i+1][j-arr[i]] || dp[i+1][j];
+                curr[j]=next[j-arr[i]] || next[j];
               }
               else{
-                dp[i][j]=dp[i+1][j];
+                curr[j]=next[j];
               }
             }
+            next=curr;
         }
-        return dp[0][tar];
+        return next[tar];
     } 
 
        bool canPartition(vector<int>& nums) {
