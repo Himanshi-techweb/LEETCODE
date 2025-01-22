@@ -11,10 +11,8 @@ public:
     //     return ans;
     // }
     int solve(int id_n,int k,int target,vector<vector<int>>&dp){
-        if(target!=0 && id_n==0)return 0;
-        if(id_n!=0 && target==0)return 0;
-        if(target<0)return 0;
         if(target==0 && id_n==0)return 1;
+        if(target<0 || id_n==0)return 0;
         if(dp[id_n][target]!=-1)return dp[id_n][target];
         int ans=0;
         for(int i=1;i<=k;i++){
