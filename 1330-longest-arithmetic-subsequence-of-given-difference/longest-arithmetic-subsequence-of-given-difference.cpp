@@ -20,11 +20,10 @@ public:
     
     int longestSubsequence(vector<int>& arr, int diff) {
         unordered_map<int,int> dp;
-        int count=0;
         int ans=0;
         for(int i=0;i<arr.size();i++){
             int curr=arr[i]-diff;
-            count=0;
+            int count=0;
             if(dp.count(curr)){
                 count=dp[curr];
             }
