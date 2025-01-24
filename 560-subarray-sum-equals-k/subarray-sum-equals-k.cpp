@@ -14,8 +14,6 @@ class Solution {
     //   } return x-1; 
 public:
     int subarraySum(vector<int>& arr, int k) {
-      if(arr.size()==0)return 0;
-      if(arr.size()==1)return arr[0]==k;
       unordered_map<int,int> check;
       int count=0;
       int sum=0;
