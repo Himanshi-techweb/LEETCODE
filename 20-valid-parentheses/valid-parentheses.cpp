@@ -10,7 +10,8 @@ public:
          }
          else{
             if(check.empty())return false;
-            char x=check.top();
+            char x;
+            if(!check.empty()) x=check.top();
             if((x=='(' && s[i]==')') || (x=='{' && s[i]=='}') || (x=='[' && s[i]==']')){
               check.pop();
             }
