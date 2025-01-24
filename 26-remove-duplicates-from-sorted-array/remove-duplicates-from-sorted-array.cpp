@@ -6,7 +6,6 @@ public:
         while(i<arr.size() && j<arr.size()){
            if(arr[i]==arr[j]){
             arr.erase(arr.begin()+j);
-            
            }
            else{
             i++;
