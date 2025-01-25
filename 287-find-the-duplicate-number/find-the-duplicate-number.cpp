@@ -12,6 +12,6 @@ public:
         slow=nums[slow];
         fast=nums[fast];
       }
-      return slow;
+      return slow;////floyds tortoise and hare algorithm
     }
 };
