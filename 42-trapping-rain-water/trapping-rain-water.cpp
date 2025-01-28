@@ -17,7 +17,7 @@ public:
            l++;
         }
         else{
-            if(rightmax>arr[r]){
+            if(rightmax>=arr[r]){
              total+=rightmax-arr[r];
             }
             else{
