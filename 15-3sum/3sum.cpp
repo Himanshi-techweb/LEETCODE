@@ -1,14 +1,14 @@
 class Solution {
 public:
     vector<vector<int>> threeSum(vector<int>& nums) {
-      if(nums.size()==3){
-        if(nums[0]+nums[1]+nums[2]==0){
-            return {{nums[0],nums[1],nums[2]}};
-        }
-        else{
-            return {};
-        }
-      }
+    //   if(nums.size()==3){
+    //     if(nums[0]+nums[1]+nums[2]==0){
+    //         return {{nums[0],nums[1],nums[2]}};
+    //     }
+    //     else{
+    //         return {};
+    //     }
+    //   }
       vector<vector<int>> ans;
       sort(nums.begin(),nums.end());
         for(int i=0;i<nums.size();i++){
