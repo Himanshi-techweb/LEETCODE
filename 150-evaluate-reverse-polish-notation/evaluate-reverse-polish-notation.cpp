@@ -36,7 +36,7 @@ public:
         }
         i++;
       }
-      long long ans=q.top();
+      int ans=q.top();
       return ans;  
     }
 };
