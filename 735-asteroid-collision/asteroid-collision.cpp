@@ -8,15 +8,16 @@ public:
            // if smaller then current
            if(st.top()<-x){
             st.pop();
-            continue;
            }
            else if(st.top()==-x){
             st.pop();
-           }
-        //    else{
             destroy=true;
             break;
-        //    }
+           }
+           else{
+            destroy=true;
+            break;
+           }
         }
         if(!destroy){
             st.push(x);
