@@ -22,7 +22,7 @@ public:
             // }
             // else{
                 for(auto it:adj[node]){
-                  if(dist+it[1]<distance[it[0]]){
+                  if(dist+it[1]<distance[it[0]] && stop_count<=k){
                     distance[it[0]]=dist+it[1];
                     q.push({stop_count+1,it[0],dist+it[1]});
                   }
