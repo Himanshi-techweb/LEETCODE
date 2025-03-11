@@ -21,7 +21,7 @@ public:
         for(int j=0;j<n;j++){
           dp[j][0]=true;
         }
-        if(nums[0]<=tar)dp[0][nums[0]]=true;
+        if(nums[0]==tar)dp[0][nums[0]]=true;
         
         for(int i=1;i<n;i++){
             for(int j=1;j<=tar;j++){
