@@ -14,13 +14,22 @@ public:
         sum+=x;
      } 
      int n=nums.size();
-     if(sum%2==0){
+     if(sum%2!=0)return false;
         int tar=sum/2;
-        vector<vector<int>> dp(n,vector<int> (tar+1,-1));
-         return solve(n-1,tar,nums,dp);
-     }
-     else{
-        return false;
-     }  
+        vector<vector<bool>> dp(n,vector<bool> (tar+1,false));
+        //  return solve(n-1,tar,nums,dp);
+        for(int j=0;j<n;j++){
+          dp[j][0]=true;
+        }
+        if(nums[0]<=tar)dp[0][nums[0]]=true;
+        
+        for(int i=1;i<n;i++){
+            for(int j=1;j<=tar;j++){
+                bool nottake=dp[i-1][j];
+                bool take=(j>=nums[i])?dp[i-1][j-nums[i]]:false;
+                 dp[i][j]=nottake || take; 
+            }
+        }
+        return dp[n-1][tar]; 
     }
 };
