@@ -1,16 +1,29 @@
 class Solution {
 public:
-    // int solve(int l,int r,vector<int> &nums){
-    //     if(l<0 || r>=nums.size())return 0;
-    //     int m=(l+r)/2;
-    //     while(nums[m]==0)
-    // }
+    int solve(vector<int> &nums,int tar){
+        int l=0;int r=nums.size()-1;
+        int ans=nums.size();
+        while(l<=r){
+            int m=l+(r-l)/2;
+            if(tar==nums[m]){
+                ans=m;
+                r=m-1;
+            }
+            else if(tar<nums[m]){
+                ans=m;
+               r=m-1;
+            }
+            else{
+                l=m+1;
+            }
+        }return ans;
+    }
     int maximumCount(vector<int>& nums) {
-        int l=0;int r=0;
-        for(int i=0;i<nums.size();i++){
-          if(nums[i]<0)l++;
-          if(nums[i]>0)r++;
-        }
-        return max(l,r);
+        int n=nums.size();
+        int zero=solve(nums,0);
+        int one=solve(nums,1);
+        int positive=n-one;
+        int negative=zero;
+        return max(positive,negative);
     }
 };
