@@ -23,15 +23,15 @@ public:
     prev[0]=curr[0]=1;
 
     for(int i=1;i<=q1;i++){
-        for(int j=1;j<=q2;j++){
+        for(int j=q2;j>=1;j--){
             if(t1[i-1]==t2[j-1]){
-               curr[j]=prev[j-1]+prev[j];
+               prev[j]=prev[j-1]+prev[j];
             }
             else{
-                 curr[j]=prev[j];
+                 prev[j]=prev[j];
             }
         }
-        prev=curr;
+        //prev=curr;
     }
     return (int)prev[q2];//typecast return double to int
     }
