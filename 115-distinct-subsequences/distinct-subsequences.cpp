@@ -19,16 +19,20 @@ public:
          dp[i][0]=1;
        }
     //    return solve(q1,q2,t1,t2,dp); 
+    vector<double> prev(q2+1,0),curr(q2+1,0);
+    prev[0]=curr[0]=1;
+
     for(int i=1;i<=q1;i++){
         for(int j=1;j<=q2;j++){
             if(t1[i-1]==t2[j-1]){
-                dp[i][j]=dp[i-1][j-1]+dp[i-1][j];
+               curr[j]=prev[j-1]+prev[j];
             }
             else{
-                dp[i][j]=dp[i-1][j];
+                 curr[j]=prev[j];
             }
         }
+        prev=curr;
     }
-    return dp[q1][q2];
+    return (int)prev[q2];//typecast return double to int
     }
 };
