@@ -15,7 +15,35 @@ public:
     }
     int minDistance(string word1, string word2) {
         int q1=word1.size();int q2=word2.size();
-      vector<vector<int>> dp(q1+1,vector<int> (q2+1,-1));
-      return solve(q1,q2,word1,word2,dp);  
+      vector<vector<int>> dp(q1+1,vector<int> (q2+1,0));
+      //return solve(q1,q2,word1,word2,dp);  
+      for(int i=0;i<=q1;i++){
+        dp[i][0]=i;
+      }
+      for(int j=0;j<=q2;j++){
+        dp[0][j]=j;
+      }////////////////////////////////////////////////////////////////////space optimization
+      vector<int> prev(q2+1,0);
+      for(int i=0;i<=q2;i++){
+        prev[i]=i;
+      }
+      for(int i=0;i<=q2;i++){
+        prev[i]=i;
+      }
+      vector<int> curr(q2+1,0);
+      //curr[0]=1;
+      for(int i=1;i<=q1;i++){
+        curr[0]=i;
+      for(int j=1;j<=q2;j++){
+            if(word1[i-1]==word2[j-1]){
+                curr[j]=prev[j-1];
+            }
+            else{
+                curr[j]=min({1+curr[j-1],1+prev[j],1+prev[j-1]});
+            }
+        }
+        prev=curr;
+      }
+      return prev[q2];
     }
 };
