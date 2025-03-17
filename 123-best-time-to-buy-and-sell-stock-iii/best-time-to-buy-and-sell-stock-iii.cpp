@@ -50,8 +50,7 @@ public:
                     }
                     curr[buy][k]=profit; 
                 }
-                next=curr;
-            }
+            }next=curr;
         }
         return next[1][0];
     }
