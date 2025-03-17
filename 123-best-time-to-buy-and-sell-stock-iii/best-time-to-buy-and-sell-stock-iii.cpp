@@ -13,9 +13,26 @@ public:
         }
         return dp[i][buy][k]=profit;
     }
-    int maxProfit(vector<int>& prices) {
-        int n=prices.size();
-        vector<vector<vector<int>>> dp(n,vector<vector<int>>(2,vector<int>(2,-1))); 
-        return solve(0,1,0,prices,dp); 
+    int maxProfit(vector<int>& price) {
+        int n=price.size();
+        vector<vector<vector<int>>> dp(n+1,vector<vector<int>>(2,vector<int>(3,0))); 
+        //dp[n][0][0]=dp[n][0][1]=dp[n][1][0]=dp[n][1][1]=0;
+        //return solve(0,1,0,prices,dp); 
+        for(int i=n-1;i>=0;i--){
+            for(int buy=0;buy<=1;buy++){
+                for(int k=0;k<3;k++){
+                    int profit=0;
+                    if(buy){
+                        profit=max(-price[i]+dp[i+1][0][k],0+dp[i+1][1][k]);
+                    }
+                    else{
+                        if(k<2)profit=max(price[i]+dp[i+1][1][k+1],0+dp[i+1][0][k]);
+                        else profit=dp[i+1][0][k];
+                    }
+                    dp[i][buy][k]=profit; 
+                }
+            }
+        }
+        return dp[0][1][0];
     }
 };
