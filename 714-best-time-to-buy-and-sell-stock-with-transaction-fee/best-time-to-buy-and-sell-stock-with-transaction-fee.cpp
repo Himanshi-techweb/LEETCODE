@@ -1,21 +1,23 @@
 class Solution {
 public:
-   int solve(int index,int buy,vector<int> &arr,vector<vector<int>>&dp,int tran){
-    if(index==arr.size()){
-        return 0;
-    }
-    if(dp[index][buy]!=-1)return dp[index][buy];
-    long long profit=0;
-    if(buy){
-        profit=max(-arr[index]+solve(index+1,0,arr,dp,tran),solve(index+1,1,arr,dp,tran));
-    }
-    else{
-        profit=max(arr[index]-tran+solve(index+1,1,arr,dp,tran),solve(index+1,0,arr,dp,tran));
-    }
-    return dp[index][buy]=profit;
-   }
-    int maxProfit(vector<int>& prices, int fee) {
-       vector<vector<int>> dp(prices.size(),vector<int> (2,-1));
-       return solve(0,1,prices,dp,fee);  
+    int maxProfit(vector<int>& price, int fee) {
+        int n=price.size();
+        vector<int> next(2,0);
+        vector<int> curr(2,0);
+        next[0]=next[1]=0;
+        for(int i=n-1;i>=0;i--){
+            for(int buy=0;buy<2;buy++){
+               int profit=0;
+                if(buy){
+                   profit=max(-price[i]+next[0],0+next[1]);
+                }
+                else{
+                   profit=max(price[i]+next[1]-fee,0+next[0]);
+                }
+                curr[buy]=profit;
+            }
+            next=curr;
+        }
+        return next[1];
     }
 };
