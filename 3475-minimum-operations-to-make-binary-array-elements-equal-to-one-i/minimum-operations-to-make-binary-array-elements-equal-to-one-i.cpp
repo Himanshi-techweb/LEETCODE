@@ -6,9 +6,9 @@ public:
        int k=0;
        while(i<n-2){
         if(arr[i]==0){
-            for(int j=i;j<i+3;j++){
-                arr[j]=(arr[j]==0)?1:0;
-            }
+                arr[i]=(arr[i]==0)?1:0;
+                arr[i+1]=(arr[i+1]==0)?1:0;
+                arr[i+2]=(arr[i+2]==0)?1:0;
             k++;
         }i++;
        } 
