@@ -10,12 +10,11 @@ public:
         sort(arr.begin(),arr.end());
         for(auto i:arr){
             if(i%x!=check)return -1;
-        }int n=arr.size();int ans=INT_MAX;int q=0;
+        }int n=arr.size();int q=0;
             int k=arr[n/2];
             for(auto i:arr){
                 q+=abs((i-k))/x;
             }
-            ans=min(ans,q);
-        return ans;
+        return q;
     }
 };
