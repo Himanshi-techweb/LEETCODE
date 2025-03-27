@@ -1,32 +1,44 @@
 class Solution {
 public:
     int minOperations(vector<vector<int>>& grid, int x) {
-        vector<int> values;
-        int m = grid.size(), n = grid[0].size();
-
-        // Flatten the grid and check feasibility
-        for (int i = 0; i < m; i++) {
-            for (int j = 0; j < n; j++) {
-                values.push_back(grid[i][j]);
+        vector<int> arr;
+        for(int i=0;i<grid.size();i++){
+            for(int j=0;j<grid[i].size();j++){
+                arr.push_back(grid[i][j]);
+            }
+        }int check=arr[0]%x;
+        sort(arr.begin(),arr.end());
+        for(auto i:arr){
+            if(i%x!=check)return -1;
+        }int n=arr.size();int ans=INT_MAX;int q=0;
+        if(n%2!=0){
+            int k=arr[n/2];
+            for(auto i:arr){
+                q+=abs((i-k))/x;
+            }
+            ans=min(ans,q);
+        }
+        else{
+            int l=arr[0];
+            int r=arr[1];
+            if(n==2){
+              l=arr[0];
+              r=arr[1];
+            }
+            else{
+                l=arr[n/2];
+                r=arr[(n/2)+1];
+            }
+                while(l<=r){
+                  q=0;
+                  int k=l;
+                  for(auto i:arr){
+                  q+=abs((i-k))/x;
+                } 
+                ans=min(ans,q); 
+                l=l+x;
             }
         }
-
-        // Check if making the grid uni-value is possible
-        int remainder = values[0] % x;
-        for (int num : values) {
-            if (num % x != remainder) return -1;
-        }
-
-        // Find the median
-        sort(values.begin(), values.end());
-        int median = values[values.size() / 2];
-
-        // Compute total number of operations
-        int operations = 0;
-        for (int num : values) {
-            operations += abs(num - median) / x;
-        }
-
-        return operations;
+        return ans;
     }
 };
