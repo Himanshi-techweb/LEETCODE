@@ -10,9 +10,16 @@ public:
     }
     long long mostPoints(vector<vector<int>>& questions) {
         int n=questions.size();
-       vector<long long > dp(n,-1);
-       //vector<vector<long long>> 
-       
-       return solve(0,dp,questions);
+       vector<long long > dp(n,0);
+    //    //vector<vector<long long>> 
+    //    return solve(0,dp,questions);
+    for(int i=n-1;i>=0;i--){
+        long long x=questions[i][0];
+        int nexti=questions[i][1]+i+1;
+        long long include=x+(nexti<n?dp[nexti]:0);
+        long long exclude=(i+1<n?dp[i+1]:0);
+        dp[i]=max(include,exclude);
+    }
+    return dp[0];
     }
 };
