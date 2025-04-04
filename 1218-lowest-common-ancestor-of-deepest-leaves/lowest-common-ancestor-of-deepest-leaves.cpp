@@ -35,10 +35,13 @@ public:
           }
        }
        while(deepest.size()>1){
+           unordered_set<TreeNode*> check_set;
           for(int i=0;i<deepest.size();i++){
-            deepest[i]=check[deepest[i]];
+            //deepest[i]=check[deepest[i]];
+             check_set.insert(check[deepest[i]]);
           }
-          deepest.erase(unique(deepest.begin(),deepest.end()),deepest.end());
+          deepest.assign(check_set.begin(),check_set.end());
+          //deepest.erase(unique(deepest.begin(),deepest.end()),deepest.end());
        } 
        return deepest[0];
     }
