@@ -1,14 +1,12 @@
 class Solution {
 public:
     int majorityElement(vector<int>& arr) {
-     unordered_map<int,int> check;
-     for(auto x:arr){
+       map<int,int> check;int n=arr.size();
+       for(auto x:arr){
         check[x]++;
-     }
-     int n=arr.size();
-     n=n/2;
-     for(auto x:check){
-        if(x.second>n)return x.first;
-     }   return 0;
+        if(check[x]>n/2){
+            return x;
+        }
+       } return 0;
     }
 };
