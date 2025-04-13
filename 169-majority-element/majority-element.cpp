@@ -1,12 +1,17 @@
 class Solution {
 public:
     int majorityElement(vector<int>& arr) {
-       map<int,int> check;int n=arr.size();
+       int count=0;int tar=0;
        for(auto x:arr){
-        check[x]++;
-        if(check[x]>n/2){
-            return x;
+        if(count==0){
+            tar=x;
+            count++;
         }
-       } return 0;
+        else{
+            count+=((tar==x)?1:-1);
+        }
+       }
+       //here it is guarantee that it exist otherwise run and chec that count of tar is greater than n/2 there then return that number;
+       return tar;
     }
 };
