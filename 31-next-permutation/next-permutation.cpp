@@ -1,19 +1,26 @@
 class Solution {
 public:
-    void nextPermutation(vector<int>& nums) {
-        int x=nums.size();
-        int i=x-2;
-      while(i>=0 && nums[i]>=nums[i+1]){
-        i--;
-      }
-      if(i>=0){
-        int j=x-1;
-        while(nums[j]<=nums[i]){
-            j--;
+    void nextPermutation(vector<int>& arr) {
+        int n=arr.size();
+       //finding corner point in array
+       int x=0;
+       for(int i=n-2;i>=0;i--){
+        if(arr[i]<arr[i+1]){
+           x=i;
+           break;
         }
-        swap(nums[i],nums[j]);
-      }
-      reverse(nums.begin()+i+1,nums.end());
+       } 
+       //just next greater element
+       int mini=INT_MAX;int mini_ix=n-1;
+       for(int i=x+1;i<n;i++){
+         if(arr[i]>arr[x] && arr[i]<mini){
+            mini=arr[i];
+            mini_ix=i;
+         }
+       }
+       swap(arr[x],arr[mini_ix]);
+       //sort just after x 
+       sort(arr.begin()+x+1,arr.end());
        
     }
 };
