@@ -42,10 +42,9 @@ public:
         if(ele1==x)count1++;
         if(ele2==x)count2++;
        }
-       int check=(int)arr.size()/3  + 1;set<int> ans;
-       if(count1>=check)ans.insert(ele1);
-       if(count2>=check)ans.insert(ele2);
-       vector<int> result(ans.begin(),ans.end());
-       return result;
+       int check=(int)arr.size()/3  + 1;vector<int> ans;
+       if(count1>=check)ans.push_back(ele1);
+       if(ele1 !=ele2 && count2>=check)ans.push_back(ele2);
+       return ans;
     }
 };
