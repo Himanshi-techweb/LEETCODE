@@ -1,38 +1,26 @@
 class Solution {
 public:
-    vector<vector<int>> threeSum(vector<int>& nums) {
-    //   if(nums.size()==3){
-    //     if(nums[0]+nums[1]+nums[2]==0){
-    //         return {{nums[0],nums[1],nums[2]}};
-    //     }
-    //     else{
-    //         return {};
-    //     }
-    //   }
-      vector<vector<int>> ans;
-      sort(nums.begin(),nums.end());
-        for(int i=0;i<nums.size();i++){
-            if(i>0 && nums[i]==nums[i-1])continue;
-            int l=i+1;int r=nums.size()-1;
-            while(l<r){
-                int sum=nums[i]+nums[l]+nums[r];
-                if(sum<0){
-                    l++;
-                }
-                else if(sum>0){
-                   r--;
-                }
+    vector<vector<int>> threeSum(vector<int>& arr) {
+        sort(arr.begin(),arr.end());
+        vector<vector<int>> ans;int n=arr.size();
+        for(int i=0;i<arr.size();i++){
+            if(i>0 && arr[i]==arr[i-1])continue;
+            int j=i+1;int k=n-1;
+            while(j<k){
+                int sum=arr[i]+arr[j]+arr[k];
+                if(sum<0)j++;
+                else if(sum>0)k--;
                 else{
-                    ans.push_back({nums[i],nums[l],nums[r]});
-                    while(l<r && nums[l]==nums[l+1])l++;
-                    while(l<r && nums[r]==nums[r-1])r--;
-                    l++;
-                    r--;
+                    vector<int> check;
+                    check.push_back(arr[i]);
+                    check.push_back(arr[j]);
+                    check.push_back(arr[k]);
+                    ans.push_back(check);
+                    j++;k--;
+                    while(j<k && arr[j]==arr[j-1])j++;
+                    while(j<k && arr[k]==arr[k+1])k--;
                 }
             }
-        }
-
-     return ans; 
+        }return ans;
     }
-   
 };
