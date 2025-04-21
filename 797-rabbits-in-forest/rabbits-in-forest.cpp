@@ -1,18 +1,19 @@
 class Solution {
 public:
-    int numRabbits(vector<int>& answers) {
-       unordered_map<int, int> count;
-        for (int ans : answers) {
-            count[ans]++;
-        }
-
-        int result = 0;
-        for (auto [k, freq] : count) {
-            int groupSize = k + 1;
-            int groups = (freq + k) / groupSize; // ceil(freq / groupSize)
-            result += groups * groupSize;
-        }
-
-        return result; 
+    int numRabbits(vector<int>& arr) {
+       unordered_map<int,int> check;int ans=0;
+       for(auto x:arr){
+         check[x]++;
+         if(check[x]==x+1){
+            ans+=(x+1);
+            check[x]=0;
+         }
+       }
+       for(auto [x,freq] :check){
+         if(freq!=0){
+            ans+=(x+1);
+         }
+       }
+       return ans;
     }
 };
