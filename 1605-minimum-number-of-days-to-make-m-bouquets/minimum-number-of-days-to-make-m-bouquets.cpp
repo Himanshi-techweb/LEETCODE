@@ -2,16 +2,15 @@ class Solution {
 public:
     bool calc(int mid,int m,int k,vector<int> &arr){
         int x=arr.size();
-        long long cnt=0;vector<bool> check(x,0);int i=0;long long ans=0;
+        long long cnt=0;int i=0;long long ans=0;
         for(int j=0;j<arr.size();j++){
-          if(arr[j]<=mid)check[j]=1;
-        }
-        while(i<x){
-           if(check[i]==1)cnt++;
-           else{
+          if(arr[j]<=mid){
+            cnt++;
+          }
+          else{
             ans+=(cnt/k);
             cnt=0;
-           }i++;
+          }
         }
         if(cnt!=0)ans+=(cnt/k);
         return ans>=m;
