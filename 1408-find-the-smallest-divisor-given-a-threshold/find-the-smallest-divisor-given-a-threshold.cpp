@@ -1,7 +1,7 @@
 class Solution {
 public:
     bool check(int mid,int thre,vector<int> &arr){
-        long long ans=0;
+        int ans=0;
         for(auto x:arr){
             ans+=ceil ((double)x/(double)mid);
         }
