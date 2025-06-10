@@ -2,7 +2,7 @@ class Solution {
 public:
     int maxDifference(string s) {
       int oddfreq=INT_MIN;int evenfreq=INT_MAX;
-      map<char,int> freq;
+      unordered_map<char,int> freq;
       for(auto x:s){
         freq[x]++;
         
