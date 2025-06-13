@@ -12,10 +12,11 @@ class Solution {
 public:
     TreeNode* check(TreeNode* root, TreeNode* p, TreeNode* q){
         if(root==NULL)return NULL;
-        if(root->val==p->val || root->val==q->val)return root;
-        else if((p->val>root->val && q->val<root->val) || (q->val>root->val && p->val<root->val))return root;
-        else if(p->val<root->val && q->val<root->val)return check(root->left,p,q);
-        else return check(root->right,p,q);
+        // if(root->val==p->val || root->val==q->val)return root;
+        // else if((p->val>root->val && q->val<root->val) || (q->val>root->val && p->val<root->val))return root;
+        if(p->val<root->val && q->val<root->val)return check(root->left,p,q);
+        if(p->val>root->val && q->val>root->val)return check(root->right,p,q);
+        else return root;
     }
     TreeNode* lowestCommonAncestor(TreeNode* root, TreeNode* p, TreeNode* q) {
         return check(root,p,q);
