@@ -10,10 +10,9 @@ public:
      int color2=arr[sr][sc];
      if(arr[sr][sc]!=color){
             st.push({sr,sc});
-            visit[sr][sc]=1;
-            copy[sr][sc]=color;
+            //visit[sr][sc]=1;
+            arr[sr][sc]=color;
      }
-     st.push({sr,sc});
      while(!st.empty()){
         pair<int,int> front=st.top();
         st.pop();
@@ -22,11 +21,11 @@ public:
         int nc=front.second+rc[i][1];
         if(nr>=0 && nr<row && nc>=0 && nc<col && visit[nr][nc]==0 && arr[nr][nc]==color2){
             visit[nr][nc]=1;
-            copy[nr][nc]=color;
+            arr[nr][nc]=color;
             st.push({nr,nc});
         }
         }
      }
-     return copy;
+     return arr;
     }
 };
