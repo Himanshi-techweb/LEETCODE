@@ -1,41 +1,32 @@
 class Solution {
-    void bfs(int sr,int sc,vector<vector<int>> &arr){
-        int m=arr.size();
-        int n=arr[0].size();
-        int x=arr[sr][sc];
-        arr[sr][sc]=-1;
-        queue<pair<int,int>> q;
-        q.push({sr,sc});
-        while(!q.empty()){
-            int row=q.front().first;
-            int col=q.front().second;
-            q.pop();
-            for(int i=-1;i<=1;i++){
-                int nrow=row+i;
-                int ncol=col;
-                if(nrow>=0 && nrow<m && ncol>=0 && ncol<n && arr[nrow][ncol]==x && arr[nrow][ncol]!=-1){
-                    bfs(nrow,ncol,arr);
-                }
-            }    
-            for(int i=-1;i<=1;i++){
-                int nrow=row;
-                int ncol=col+i;
-                if(nrow>=0 && nrow<m && ncol>=0 && ncol<n && arr[nrow][ncol]==x && arr[nrow][ncol]!=-1){
-                    bfs(nrow,ncol,arr);
-                }
-            }    
-        }
-    }
 public:
     vector<vector<int>> floodFill(vector<vector<int>>& arr, int sr, int sc, int color) {
-        bfs(sr,sc,arr);
-        for(int i=0;i<arr.size();i++){
-            for(int j=0;j<arr[0].size();j++){
-                if(arr[i][j]==-1){
-                    arr[i][j]=color;
-                }
-            }
+     int row=arr.size();int col=arr[0].size();
+     vector<vector<int>> visit(row,vector<int> (col,0));
+     vector<vector<int>> copy=arr;
+     stack<pair<int,int>>st;
+     vector<vector<int>> rc={{-1,0},{0,1},{0,-1},{1,0}};
+     if(arr[sr][sc]==color)return arr;
+     int color2=arr[sr][sc];
+     if(arr[sr][sc]!=color){
+            st.push({sr,sc});
+            visit[sr][sc]=1;
+            copy[sr][sc]=color;
+     }
+     st.push({sr,sc});
+     while(!st.empty()){
+        pair<int,int> front=st.top();
+        st.pop();
+        for(int i=0;i<4;i++){
+        int nr=front.first+rc[i][0];
+        int nc=front.second+rc[i][1];
+        if(nr>=0 && nr<row && nc>=0 && nc<col && visit[nr][nc]==0 && arr[nr][nc]==color2){
+            visit[nr][nc]=1;
+            copy[nr][nc]=color;
+            st.push({nr,nc});
         }
-        return arr;
+        }
+     }
+     return copy;
     }
 };
