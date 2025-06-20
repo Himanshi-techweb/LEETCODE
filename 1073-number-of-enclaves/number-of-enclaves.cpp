@@ -1,9 +1,4 @@
-// class Solution {
-// public:
-//     int (vector<vector<int>>& grid) {
-        
-//     }
-// };
+
 class Solution {
 public:
     int numEnclaves(vector<vector<int>>& board) {
