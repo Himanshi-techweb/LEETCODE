@@ -25,10 +25,10 @@ public:
             for(auto it:rc){
             int nr=row+it[0];
             int nc=col+it[1];
-            if(nr>=0 && nr<m && nc>=0 && nc<n && grid[nr][nc]==1){
+            if(nr>=0 && nr<m && nc>=0 && nc<n && grid[nr][nc]==1 && visit[nr][nc]==0){
                 q.push({nr,nc});
                 visit[nr][nc]=1;
-                grid[nr][nc]=2;
+                // grid[nr][nc]=2;
                 fresh--;
             }
         }
