@@ -1,53 +1,35 @@
 
 class Solution {
 public:
+    vector<vector<int>> rc={{-1,0},{0,-1},{0,1},{1,0}};
+    void dfs(int i,int j,int m,int n,vector<vector<int>>&arr){
+        arr[i][j]=-1;
+        for(auto it:rc){
+            int nr=i+it[0];
+            int nc=j+it[1];
+            if(nr>=0 && nr<m && nc>=0 && nc<n &&  arr[nr][nc]==1){
+                dfs(nr,nc,m,n,arr);
+            }
+        }
+    }
     int numEnclaves(vector<vector<int>>& board) {
-       int m=board.size();
-       int n=board[0].size();
-       queue<pair<int,int>> q;
-        //top row
-        for(int j=0;j<n;j++){
-            if(board[0][j]==1){
-                q.push({0,j});
-                 board[0][j]=-1;
-            }
-        }//bottom
-        for(int j=0;j<n;j++){
-            if(board[m-1][j]==1){
-                q.push({m-1,j});
-                board[m-1][j]=-1;
-            }
-        }//left
+        int m=board.size();
+        int n=board[0].size();
+        int cnt=0;
         for(int i=0;i<m;i++){
-            if(board[i][0]==1){
-                q.push({i,0});
-                board[i][0]=-1;
-            }}
-        for(int i=0;i<m;i++){//right
-            if(board[i][n-1]==1){
-                q.push({i,n-1});
-                board[i][n-1]=-1;
-            }}
-        vector<pair<int,int>> check;
-        check={{-1,0},{0,1},{1,0},{0,-1}};
-        while(!q.empty()){
-            int row=q.front().first;
-            int col=q.front().second;
-            q.pop();
-            for(auto x: check){
-                int nrow=row+x.first;
-                int ncol=col+x.second;
-                if(nrow>=0 && nrow<m && ncol>=0 && ncol<n && board[nrow][ncol]==1){
-                    q.push({nrow,ncol});
-                    board[nrow][ncol]=-1;}}}
-        int count=0;
+            if(board[i][0]==1)dfs(i,0,m,n,board);
+            if(board[i][n-1]==1)dfs(i,n-1,m,n,board);
+        }
+        for(int i=0;i<n;i++){
+            if(board[0][i]==1)dfs(0,i,m,n,board);
+            if(board[m-1][i]==1)dfs(m-1,i,m,n,board);
+        }
         for(int i=0;i<m;i++){
             for(int j=0;j<n;j++){
-                if(board[i][j]==-1){
-                    board[i][j]=1;
-                }
-                else if(board[i][j]==1){
-                    board[i][j]=0;
-                    count++;
-                }} } return count;} 
+                if(board[i][j]==-1)board[i][j]=0;
+                else if(board[i][j]==1)cnt++;
+            }
+        }
+        return cnt;
+    }
 };
