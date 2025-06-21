@@ -4,10 +4,8 @@ public:
         if(i<0 || j<0 || j>i)return INT_MAX;
         if(i==0 && j==0 )return dp[i][j]=grid[0][0];
         if(dp[i][j]!=-1)return dp[i][j];
-        int left=INT_MAX;
-        if(i-1>=0 && j-1>=0)left=solve(i-1,j-1,grid,dp);
-        int right=INT_MAX;
-        if(i-1>=0 )right=solve(i-1,j,grid,dp);
+        int left=solve(i-1,j-1,grid,dp);
+        int right=solve(i-1,j,grid,dp);
         return dp[i][j]=grid[i][j]+min(left,right);
     }
     int minimumTotal(vector<vector<int>>& triangle) {
