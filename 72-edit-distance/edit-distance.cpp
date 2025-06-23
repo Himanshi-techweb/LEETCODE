@@ -8,7 +8,7 @@ public:
            return j+1;
        }
        if(dp[i][j]!=-1)return dp[i][j];
-       if(x[i]==y[j])return solve(i-1,j-1,x,y,dp);
+       if(x[i]==y[j])return dp[i][j]=solve(i-1,j-1,x,y,dp);
         int insert=solve(i,j-1,x,y,dp);
         int replace=solve(i-1,j-1,x,y,dp);
         int erase=solve(i-1,j,x,y,dp);
