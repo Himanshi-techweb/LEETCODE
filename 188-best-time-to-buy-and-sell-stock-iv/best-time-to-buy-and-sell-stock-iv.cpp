@@ -1,24 +1,20 @@
 class Solution {
 public:
-    int maxProfit(int k, vector<int>& price) {
-        int n=price.size();
-       vector<vector<int>> next(2,vector<int>(k+1,0));
-        vector<vector<int>> curr(2,vector<int>(k+1,0));
-        for(int i=n-1;i>=0;i--){
-            for(int buy=0;buy<=1;buy++){
-                for(int j=0;j<k;j++){
-                    int profit=0;
-                    if(buy){
-                        profit=max(-price[i]+next[0][j],0+next[1][j]);
-                    }
-                    else{
-                        if(j<k)profit=max(price[i]+next[1][j+1],0+next[0][j]);
-                        else profit=next[0][j];
-                    }
-                    curr[buy][j]=profit; 
-                }
-            }next=curr;
+    int solve(int i,int buy,int k,vector<int> &arr,vector<vector<vector<int>>> &dp){
+        if(i==arr.size())return 0;
+        if(k==0)return 0;
+        if(dp[i][buy][k]!=-1)return dp[i][buy][k];
+        int profit=0;
+        if(buy){
+            profit=max(-arr[i]+solve(i+1,0,k,arr,dp),solve(i+1,1,k,arr,dp));
         }
-        return next[1][0]; 
+        else{
+            profit=max(arr[i]+solve(i+1,1,k-1,arr,dp),solve(i+1,0,k,arr,dp));
+        }
+        return dp[i][buy][k]=profit;
+    }
+    int maxProfit(int k,vector<int>& price) {
+        vector<vector<vector<int>>> dp(price.size(),vector<vector<int>>(2,vector<int> (k+1,-1)));
+       return solve(0,1,k,price,dp);
     }
 };
