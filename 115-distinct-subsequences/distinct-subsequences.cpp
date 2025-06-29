@@ -1,25 +1,21 @@
 class Solution {
 public:
-    int numDistinct(string x, string y) {
-       int m=x.size();int n=y.size();
-    //    vector<vector<long long>> dp(m+1,vector<long long> (n+1,0));
-       vector<unsigned int> prev(n+1,0);
-       vector<unsigned int> curr(n+1,0);
-       prev[0]=1;curr[0]=1;
-    //    for(int i=0;i<=m;i++){
-    //     dp[i][0]=1;
-    //    }
-       for(int i=1;i<=m;i++){
-        for(int j=1;j<=n;j++){
-            if(x[i-1]==y[j-1]){
-                curr[j]=prev[j-1]+prev[j];
-            }
-            else{
-                curr[j]=prev[j];
-            }
+    int solve(int i,int j,string x,string y,vector<vector<int>> &dp){
+        if(j<0)return 1;
+        if(i<0)return 0;
+        if(dp[i][j]!=-1)return dp[i][j];
+        //match
+        int result=0;
+        if(x[i]==y[j]){
+            result+=solve(i-1,j,x,y,dp)+solve(i-1,j-1,x,y,dp);
         }
-        prev=curr;
-       }
-       return prev[n];
+        else{
+            result+=solve(i-1,j,x,y,dp);
+        }
+        return dp[i][j]=result;
+    }
+    int numDistinct(string x, string y) {
+        vector<vector<int>> dp(x.size(),vector<int>(y.size(),-1));
+        return solve(x.size()-1,y.size()-1,x,y,dp);
     }
 };
