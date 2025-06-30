@@ -1,25 +1,40 @@
 class Solution {
 public:
-    vector<vector<int>> insert(vector<vector<int>>& intervals, vector<int>& newInterval) {     bool check =false;
-      for(int i=0;i<intervals.size();i++){
-        if(intervals[i][0]>newInterval[0]){
-                intervals.insert(intervals.begin()+i,newInterval);
-                check=true;
-                break;
-            }
+    // void insertinterval()
+    vector<vector<int>> insert(vector<vector<int>>& arr, vector<int>& ni) {
+        //insertinterval
+        if(arr.size()==0)return {ni};
+        vector<vector<int>> ans;
+        int i=0;bool there=false;
+        while(i<arr.size()){
+           if(arr[i][0]>ni[0]){
+            ans.push_back(ni);
+            there=true;
+            break;
+           }
+           else{
+            ans.push_back(arr[i]);
+           }
+           i++;
+        }if(!there)ans.push_back(ni);
+        while(i<arr.size()){
+            ans.push_back(arr[i]);
+            i++;
         }
-        if(!check)intervals.push_back(newInterval); 
-      vector<vector<int>> ans;
-      ans.push_back(intervals[0]);
-      for(int i=0;i<intervals.size();i++){
-        vector<int> &temp=ans.back();
-        if(temp[1]>=intervals[i][0]){
-            temp[1]=max(intervals[i][1],temp[1]);
+        
+        //merge
+        vector<vector<int>> result;
+        vector<int> curr=ans[0];
+        for(int i=1;i<ans.size();i++){
+           if(curr[1]>=ans[i][0]){
+            curr[1]=max(ans[i][1],curr[1]);
+           } 
+           else{
+            result.push_back(curr);
+            curr=ans[i];
+           }
         }
-        else{
-            ans.push_back(intervals[i]);
-        }
-      }
-      return ans; 
+        result.push_back(curr);
+        return result;
     }
 };
