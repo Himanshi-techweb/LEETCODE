@@ -6,13 +6,13 @@ public:
       while(l<=r && r<s.size()){
         check[s[r]]++;
         maxf=max(maxf,check[s[r]]);
-        if((r-l+1)-maxf>k){
+        while((r-l+1)-maxf>k){
             check[s[l]]--;
             l++;
         }
-        else{
+        // else{
             maxlen=max(maxlen,r-l+1);
-        }
+        // }
         r++;
       }
       return maxlen;
