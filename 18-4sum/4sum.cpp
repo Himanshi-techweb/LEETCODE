@@ -1,25 +1,28 @@
 class Solution {
 public:
     vector<vector<int>> fourSum(vector<int>& arr, int target) {
-      int n=arr.size();vector<vector<int>> ans;
-      sort(arr.begin(),arr.end());
-      for(int i=0;i<n;i++){
-        if(i>0 && arr[i]==arr[i-1])continue;
-        for(int j=i+1;j<n;j++){
-            if(j>i+1 && arr[j]==arr[j-1])continue;
-            int k=j+1;int l=n-1;
-            while(k<l){
-                long long sum=(long long)arr[i]+arr[j]+arr[k]+arr[l];
-                if(sum<target)k++;
-                else if(sum>target)l--;
-                else{
-                    ans.push_back({arr[i],arr[j],arr[k],arr[l]});
-                    k++;l--;
-                    while(k<l && arr[k-1]==arr[k])k++;
-                    while(k<l && arr[l]==arr[l+1])l--;
-                }
+       vector<vector<int>> ans;
+       sort(arr.begin(),arr.end());
+       int l=0;int r=arr.size()-1;
+       for(int i=0;i<arr.size();i++){
+         if(i-1>=0 && arr[i]==arr[i-1])continue;
+         for(int j=i+1;j<arr.size();j++){
+            if(j-1>i && arr[j]==arr[j-1])continue;
+        //   if(i-1>=0 && arr[i]==arr[i-1])continue;
+          l=j+1; r=arr.size()-1;
+          while(l<r){
+            long long sum=(long long)arr[l]+arr[r]+arr[j]+arr[i];
+            if(sum==target){
+                ans.push_back({arr[i],arr[j],arr[l],arr[r]});
+                int a=arr[l];int b=arr[r];l++;r--;
+                while(l<r && arr[l]==a)l++;
+                while(l<r && arr[r]==b)r--;
             }
-        }
-      } return ans; 
+            else if(sum<target)l++;
+            else r--;
+         }
+         }
+       } 
+       return ans;
     }
 };
