@@ -11,7 +11,7 @@
  */
 class Solution {
 public:
-    TreeNode* check(vector<int> pre,int &i,int ub){
+    TreeNode* check(vector<int> &pre,int &i,int ub){
         if(i>pre.size()-1 || pre[i]>ub)return NULL;
         TreeNode* node=new TreeNode(pre[i++]);
         node->left=check(pre,i,node->val);
