@@ -10,17 +10,17 @@
  * };
  */
 class Solution {
-public:  
-        TreeNode* check(vector<int> & preorder,int ub,int &i){
-        if(i>=preorder.size() || preorder[i]>ub)return NULL;
-        TreeNode* root=new TreeNode(preorder[i]);
+public:
+    TreeNode* check(vector<int> pre,int &i,int ub){
+        if(i>pre.size()-1 || pre[i]>ub)return NULL;
+        TreeNode* node=new TreeNode(pre[i]);
         i++;
-        root->left=check(preorder,root->val,i);
-        root->right=check(preorder,ub,i);
-        return root;
+        node->left=check(pre,i,node->val);
+        node->right=check(pre,i,ub);
+        return node;
     }
     TreeNode* bstFromPreorder(vector<int>& preorder) {
         int i=0;
-       return check(preorder,INT_MAX,i);
+        return check(preorder,i,INT_MAX);
     }
 };
