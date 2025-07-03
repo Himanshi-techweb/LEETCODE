@@ -14,16 +14,14 @@ public:
     int sum=INT_MIN;
     int check(TreeNode* root){
         if(root==NULL)return 0;
-        int lh=check(root->left);
-        if(lh<0)lh=0;
-        int rh=check(root->right);
-        if(rh<0)rh=0;
-        sum=max(sum,root->val+lh+rh);
-        return root->val +max(lh,rh);
+        // if(root->left==NULL && root->right==NULL)return root->val;
+        int lsum=max(0,check(root->left));
+        int rsum=max(0,check(root->right));
+        sum=max(sum,lsum+root->val+rsum);
+        return root->val+max(lsum,rsum);
     }
     int maxPathSum(TreeNode* root) {
-        if(!root->left && !root->right)return root->val;
         check(root);
-      return sum;  
+        return sum;
     }
 };
