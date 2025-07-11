@@ -1,22 +1,25 @@
 class Solution {
 public:
-    string countAndSay(int n) {
-       string result = "1";
-        for (int i = 2; i <= n; ++i) {
-            string curr = "";
-            int count = 1;
-            for (int j = 1; j < result.size(); ++j) {
-                if (result[j] == result[j - 1]) {
-                    count++;
-                } else {
-                    curr += to_string(count) + result[j - 1];
-                    count = 1;
-                }
+    string solve(int n){
+        if(n==1)return "1";
+        string say=solve(n-1);
+        string re="";
+        char pre=say[0];int cnt=1;
+        for(int i=1;i<say.size();i++){
+            char ch=say[i];
+            if(ch==pre){
+              cnt++;
             }
-            // Add the last group
-            curr += to_string(count) + result.back();
-            result = curr;
+            else{
+                re=re+to_string(cnt)+pre;
+                cnt=1;
+                pre=ch;
+            }
         }
-        return result; 
+        re=re+to_string(cnt)+pre;
+        return re;
+    } 
+    string countAndSay(int n) {
+        return solve(n);
     }
 };
