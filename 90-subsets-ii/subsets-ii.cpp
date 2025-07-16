@@ -6,14 +6,11 @@ public:
         if(i==arr.size()){
             st.insert(a);return;
         }
-        for(int j=i;j<arr.size();j++){
-           if(j>i && arr[j]==arr[j-1])continue;
-            solve(j+1,arr,a); 
-           a.push_back(arr[j]);
-           solve(j+1,arr,a);
+           solve(i+1,arr,a); 
+           a.push_back(arr[i]);
+           solve(i+1,arr,a);
            a.pop_back();
            
-        }
     }
     vector<vector<int>> subsetsWithDup(vector<int>& arr) {
       sort(arr.begin(),arr.end());
