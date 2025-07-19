@@ -1,22 +1,25 @@
 class Solution {
 public:
     vector<vector<string>> ans;
-    bool ispalindrome(int l,int r,string a){
+    bool check(string s){
+        int l=0;int r=s.size()-1;
         while(l<=r){
-            if(a[l]!=a[r])return false;
+            if(s[l]!=s[r])return false;
             l++;r--;
         }
         return true;
     }
-    void solve(int st,string a,vector<string> &arr){
-       if(st>=a.size()){
-        ans.push_back(arr);return;
+    void solve(int i,string s,vector<string> &arr){
+       if(i==s.size()){
+        ans.push_back(arr);
+        return;
        }
-       for(int i=st;i<a.size();i++){
-        if(ispalindrome(st,i,a)){
-               arr.push_back(a.substr(st,i-st+1));
-               solve(i+1,a,arr);
-               arr.pop_back();
+       for(int j=i;j<s.size();j++){
+        //taken 
+        if(check(s.substr(i,j-i+1))){
+            arr.push_back(s.substr(i,j-i+1));
+            solve(j+1,s,arr);
+            arr.pop_back();
         }
        }
     }
