@@ -2,10 +2,9 @@ class FindSumPairs {
 public:
     vector<int> a;vector<int> b;
     unordered_map<long long,long long> check;
-    FindSumPairs(vector<int>& x, vector<int>& y) {
-        
-      for(auto it:x)a.push_back(it); 
-      for(auto it:y)b.push_back(it); 
+    FindSumPairs(vector<int>& a, vector<int>& b) {
+      this->a=a;
+      this->b=b;
       for(auto it:b){
         check[it]++;
       } 
