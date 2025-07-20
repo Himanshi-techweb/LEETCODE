@@ -1,22 +1,21 @@
 class Solution {
 public:
     string removeDuplicateLetters(string s) {
-       vector<int> lastindex(26,-1);
+       unordered_map<char,int> check;
+       unordered_set<char> use;
+       for(auto it:s)check[it]++;
+       string ans="";
        for(int i=0;i<s.size();i++){
-        lastindex[s[i]-'a']=i;
-       }
-       string result=""; 
-       vector<bool> visit(26,false);
-       for(int i=0;i<s.size();i++){
-        char ch=s[i];
-        if(visit[ch-'a'])continue;
-        while(result.size()>0 && result.back()> ch && lastindex[result.back()-'a']>i){
-            visit[result.back()-'a']=false;
-            result.pop_back();
+        check[s[i]]--;
+        if(use.count(s[i]))continue;
+        while(ans.size() && ans.back()>s[i] && check[ans.back()]>0){
+           use.erase(ans.back());
+           ans.pop_back();
         }
-        result+=ch;
-        visit[ch-'a']=true;
+        ans+=s[i];
+        
+        use.insert(s[i]);
        }
-       return result;
+       return ans;
     }
 };
