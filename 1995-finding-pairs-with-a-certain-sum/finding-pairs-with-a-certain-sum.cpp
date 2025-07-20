@@ -1,31 +1,34 @@
 class FindSumPairs {
 public:
-    vector<int>arr1;vector<int>arr2;
-    unordered_map<int,int> check;
-    FindSumPairs(vector<int>& nums1, vector<int>& nums2) {
-       arr1=nums1;
-       arr2=nums2;
-       for(auto x:arr2){
-          check[x]++;
-       } 
+    vector<int> a;vector<int> b;
+    unordered_map<long long,long long> check;
+    FindSumPairs(vector<int>& x, vector<int>& y) {
+        
+      for(auto it:x)a.push_back(it); 
+      for(auto it:y)b.push_back(it); 
+      for(auto it:b){
+        check[it]++;
+      } 
     }
     
     void add(int index, int val) {
-      check[arr2[index]]--;
-      arr2[index]+=val;
-      check[arr2[index]]++;
+       if(index<b.size()){
+        check[b[index]]--;
+        b[index]+=val;
+        check[b[index]]++;
+       } 
     }
     
     int count(int tot) {
-       int m=arr1.size();
-       int ans=0;
-       for(int i=0;i<m;i++){
-          int temp=tot-arr1[i];
-          if(check.find(temp)!=check.end()){
-            ans=ans+check[temp];
-          }
-       }  
-       return ans;
+        int cnt=0;
+        for(int i=0;i<a.size();i++){
+        int y=a[i];
+        int x=tot-y;
+           if(x>=0 && check.find(x)!=check.end()){
+                cnt=cnt+check[x];
+           }
+        }
+      return cnt;
     }
 };
 
