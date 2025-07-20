@@ -2,22 +2,20 @@ class Solution {
 public:
     string solve(int n){
         if(n==1)return "1";
-        string say=solve(n-1);
-        string re="";
-        char pre=say[0];int cnt=1;
-        for(int i=1;i<say.size();i++){
-            char ch=say[i];
-            if(ch==pre){
-              cnt++;
+        string check=solve(n-1);
+        string ans="";
+        int cnt=1;char ch=check[0];
+        for(int i=1;i<check.size();i++){
+            if(check[i]==ch){
+                cnt++;
             }
             else{
-                re=re+to_string(cnt)+pre;
-                cnt=1;
-                pre=ch;
+                ans=ans+to_string(cnt)+ch;
+                cnt=1;ch=check[i];
             }
         }
-        re=re+to_string(cnt)+pre;
-        return re;
+        ans=ans+to_string(cnt)+ch;
+        return ans;
     } 
     string countAndSay(int n) {
         return solve(n);
