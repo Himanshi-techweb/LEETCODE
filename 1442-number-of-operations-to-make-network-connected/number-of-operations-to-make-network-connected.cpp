@@ -1,46 +1,34 @@
-class Disjoint{
-  public:
-  vector<int> size,parent;
-  Disjoint(int n){
-      size.resize(n+1,1);
-      parent.resize(n+1);
-      for(int i=0;i<=n;i++){
-          parent[i]=i;
-      }
-  }
-  int findUParent(int node){
-      if(node==parent[node])return node;
-      return parent[node]=findUParent(parent[node]);
-  }
-  void Unionbysize(int u,int v){
-      int ulp_u=findUParent(u);
-      int ulp_v=findUParent(v);
-      if(ulp_u==ulp_v)return;
-      if(size[ulp_u]<size[ulp_v]){
-          parent[ulp_u]=ulp_v;
-          size[ulp_v]+=size[ulp_u];
-      }
-      else{
-          parent[ulp_v]=ulp_u;
-          size[ulp_u]+=size[ulp_v];
-      }
-  }
-};
 class Solution {
 public:
-    int makeConnected(int V, vector<vector<int>>& edge) {
-      Disjoint check(V);
-      for(int i=0;i<edge.size();i++){
-                    if(check.findUParent(edge[i][0])!=check.findUParent(edge[i][1])){
-                       check.Unionbysize(edge[i][0],edge[i][1]);
-                    } 
+    void dfs(int i,int n,vector<int> &visit,vector<vector<int>>& adj){
+        for(auto it:adj[i]){
+            if(!visit[it]){
+                visit[it]=1;
+                dfs(it,n,visit,adj);
+            }
         }
-       unordered_set<int> q;
-       for(int i=0;i<V;i++){
-          q.insert(check.findUParent(i)); 
-       }
-    //    int total=V;int disconnect=q.size()-1;int network=total-disconnect+1;int require=disconnect-1;int remain=edge.size()-1;
-       if(edge.size()<V-1)return -1;  
-       return q.size()-1;
+    }
+    int makeConnected(int n, vector<vector<int>>& connections) {
+        vector<int>visit(n,0);int cnt=0;//count disconnected component teher is graph
+        vector<vector<int> >adj(n);
+        for(auto it:connections){
+            adj[it[0]].push_back(it[1]);
+            adj[it[1]].push_back(it[0]);
+        }
+        int total_wire=connections.size();
+        for(int i=0;i<n;i++){
+            if(!visit[i]){
+                visit[i]=1;
+                cnt++;
+                dfs(i,n,visit,adj); 
+            }
+        }
+        //count how many component not connected to any other computer 
+        int connected=n-cnt-1;
+        int requirewire_connected=connected-1;
+        int not_connected=cnt-1;
+        int remaining_wire=total_wire-requirewire_connected;
+        return (total_wire>=n-1)?cnt-1:-1;
+        
     }
 };
