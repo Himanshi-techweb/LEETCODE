@@ -24,10 +24,6 @@ public:
             }
         }
         //count how many component not connected to any other computer 
-        int connected=n-cnt-1;
-        int requirewire_connected=connected-1;
-        int not_connected=cnt-1;
-        int remaining_wire=total_wire-requirewire_connected;
         return (total_wire>=n-1)?cnt-1:-1;
         
     }
