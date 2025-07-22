@@ -5,14 +5,15 @@ public:
        vector<int> visit(n,0);
        queue<int> q;
        q.push(0);
+       visit[0]=1;
        while(!q.empty()){
         auto front=q.front();
         q.pop();
-        if(visit[front])continue;
-        visit[front]=1;
+        
         for(auto it:rooms[front]){
             if(!visit[it]){
                 q.push(it);
+                visit[it]=1;
             }
         }
        }
