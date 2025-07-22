@@ -7,13 +7,13 @@ public:
             return;
         }
         for(auto it:adj[node]){
-            if(!visit[it]){
+            // if(!visit[it]){
                curr.push_back(it);
-               visit[it]=1;
+            //    visit[it]=1;
                dfs(it,adj,curr,n,visit); 
                curr.pop_back();
-               visit[it]=0;
-            }
+            //    visit[it]=0;
+            // }
         }
     }
     vector<vector<int>> allPathsSourceTarget(vector<vector<int>>& adj) {
