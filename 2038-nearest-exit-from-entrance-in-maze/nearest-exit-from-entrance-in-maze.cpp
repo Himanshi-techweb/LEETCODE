@@ -14,7 +14,7 @@ public:
             q.pop();
             int r=front.first;int c=front.second;
             if(!(r==entrance[0] && c==entrance[1]) && (r==m-1 || r==0 || c==n-1 || c==0)){
-                mini=min(mini,dist[r][c]);
+                return dist[r][c];
             }
             for(auto it:rc){
                 int nr=it[0]+r ;int nc=it[1]+c;
