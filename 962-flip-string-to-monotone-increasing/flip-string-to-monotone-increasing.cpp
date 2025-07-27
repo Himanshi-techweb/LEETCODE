@@ -17,9 +17,20 @@ public:
     int minFlipsMonoIncr(string s) {
 
         int n=s.size();
-        if(n==1)return 0;
-        vector<vector<int>> dp(n+1,vector<int> (3,-1));
-        return solve(0,-1,s,n,dp);
+        // if(n==1)return 0;
+        // vector<vector<int>> dp(n+1,vector<int> (3,-1));
+        // return solve(0,-1,s,n,dp);
         
+        int count_1=0;int flip=0;
+        for(int i=0;i<n;i++){
+            if(s[i]-'0'){
+              count_1++;
+            }
+            else{
+               flip=min(flip+1,count_1); 
+            }
+        }
+        return flip;
+
     }
 };
