@@ -1,37 +1,29 @@
 class Solution {
 public:
-    long long check(int x,int h,vector<int> &arr){
-        long long q=0;
-      for(auto i:arr){
-        
-         if(i%x==0){
-            q+=i/x;
-         }
-         else{
-            q+=(i/x)+1;
-         }
-        //  y+=q;
-      }
-      return q;
+    bool check(vector<int> &arr,int mid,int h){
+        long long cnt=0;
+        for(int i=0;i<arr.size();i++){
+            if(arr[i]<mid)cnt++;
+            else if(arr[i]%mid==0)cnt+=(arr[i]/mid);
+            else if(arr[i]%mid!=0){
+                cnt+=(arr[i]/mid);
+                cnt++;
+            }
+        }
+        return cnt<=h;
     }
-    int minEatingSpeed(vector<int>& arr, int h) {
-      int maxi=*max_element(arr.begin(),arr.end());  
-      int low=1;
-      int high=maxi;int ans=1;
-      while(low<=high){
-        long long mid=low + (high-low)/2;
-        // if(check(mid,h,arr)==h){
-        //     ans=mid;
-        //     high=mid-1;
-        // }
-        if(check(mid,h,arr)<=h){ 
-             ans=mid;
-           high=mid-1;
+    int minEatingSpeed(vector<int>& piles, int h) {
+        int low=1;
+        int high=*max_element(piles.begin(),piles.end());
+        int ans=0;
+        while(low<=high){
+            int mid=low+(high-low)/2;
+            if(check(piles,mid,h)){
+                ans=mid;
+                high=mid-1;
+            }
+            else low=mid+1;
         }
-        else{
-            low=mid+1;
-        }
-      }
-      return ans;
+        return ans;
     }
 };
