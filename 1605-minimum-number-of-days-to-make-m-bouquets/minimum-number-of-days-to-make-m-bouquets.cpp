@@ -1,32 +1,33 @@
 class Solution {
 public:
-    bool calc(int mid,int m,int k,vector<int> &arr){
-        int x=arr.size();
-        long long cnt=0;int i=0;long long ans=0;
-        for(int j=0;j<arr.size();j++){
-          if(arr[j]<=mid){
-            cnt++;
-          }
-          else{
-            ans+=(cnt/k);
-            cnt=0;
-          }
+    bool check(long long mid,int m,int k,vector<int> &Day){
+        int cnt=0;int f_cnt=0;
+        for(int i=0;i<Day.size();i++){
+           if(Day[i]<=mid){
+            f_cnt++;
+           }
+           else{
+            cnt+=(f_cnt/k);
+            f_cnt=0;
+           }
         }
-        if(cnt!=0)ans+=(cnt/k);
-        return ans>=m;
+        if(f_cnt>0){
+            cnt+=(f_cnt/k);
+        }
+        return cnt>=m;
     }
-    int minDays(vector<int>& arr, int m, int k) {
-        int n=arr.size();
-        if(n<(long long)m*k)return -1;long long ans=-1;
-        int low=1;int high=*max_element(arr.begin(),arr.end());
-        while(low<=high){
-            long long  mid =low + (high-low)/2;
-            if(calc(mid,m,k,arr)){
-                ans=mid;
-                high=mid-1;
-            }
-            else low=mid+1;
+    int minDays(vector<int>& Day, int m, int k) {
+       if(Day.size()/k<m)return -1;
+       int low=1;int high=*max_element(Day.begin(),Day.end());
+       int ans=-1;
+       while(low<=high){
+        long long mid=low+(high-low)/2;
+        if(check(mid,m,k,Day)){
+            ans=mid;
+            high=mid-1;
         }
-        return ans;
+        else low=mid+1;
+       }
+       return ans; 
     }
 };
