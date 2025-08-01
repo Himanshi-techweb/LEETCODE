@@ -1,22 +1,16 @@
 class Solution {
 public:
-    int solve(vector<int> &arr, int goal) {
-    if(goal<0)return 0;
-    int l = 0, ans = 0;
-    long long sum = 0;
-    for (int r = 0; r < arr.size(); r++) {
-        sum += arr[r];
-        while (sum > goal) {
-            sum -= arr[l];
-            l++;
+    int numSubarraysWithSum(vector<int>& arr, int goal) {
+       unordered_map<int,int> check;
+       int sum=0;int cnt=0;
+       for(int i=0;i<arr.size();i++){
+        sum+=arr[i];
+        if(sum==goal)cnt++;
+        if(check.find(sum-goal)!=check.end()){
+            cnt+=check[sum-goal];
         }
-        ans += (r - l + 1);
+        check[sum]++;
+       }
+       return cnt;
     }
-    return ans;
-}
-
-int numSubarraysWithSum(vector<int>& arr, int goal) {
-    return solve(arr, goal) - solve(arr, goal - 1);
-}
-
 };
