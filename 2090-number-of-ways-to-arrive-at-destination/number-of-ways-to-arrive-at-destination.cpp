@@ -1,32 +1,34 @@
 class Solution {
 public:
-    int countPaths(int n, vector<vector<int>>& road) {
-       vector<long long> dist(n,LLONG_MAX);
-       vector<long long> way(n,0);
-       long long mod=(1e9)  + 7;
-       priority_queue<pair<long ,long>,vector<pair<long,long>>,greater<pair<long ,long>>> q;//{length,node}
-       vector<vector<pair<long,long>>>arr(n);
-       for(int i=0;i<road.size();i++){
-        arr[road[i][0]].push_back({road[i][1],road[i][2]});
-        arr[road[i][1]].push_back({road[i][0],road[i][2]});
-       }
-       dist[0]=0;
-       way[0]=1;
-       q.push({0,0});
-       while(!q.empty()){
-        long long length=q.top().first;
-        long long node=q.top().second;
-        q.pop();
-        for(auto it:arr[node]){
-            if(length+it.second<dist[it.first]){
-                dist[it.first]=length+it.second;
-                way[it.first]=way[node];
-                q.push({length+it.second,it.first});
-            }
-            else if(length+it.second==dist[it.first]){
-                way[it.first]=(way[node]+way[it.first])%mod;
+    const int MOD=1e9 +7;
+    int countPaths(int n, vector<vector<int>>& roads) {
+        vector< vector< pair<int,long long> > >  adj(n);
+        for(auto it:roads){
+            adj[it[0]].push_back({it[1],it[2]});
+            adj[it[1]].push_back({it[0],it[2]}); 
+        }
+
+        priority_queue< pair<long long,long long>, vector<pair<long long,long long>> ,greater<pair<long long,long long>>> q;
+        vector<long long> dist(n,LLONG_MAX);
+        vector<long long> way(n,0);
+        dist[0]=0;way[0]=1;
+        q.push({0,0});
+        while(!q.empty()){
+            auto front=q.top();q.pop();
+            long long u=front.second;long long wt=front.first;
+            if(wt>dist[u])continue;
+            for(auto it:adj[u]){
+                long long v=it.first;long long time=it.second;
+                if(dist[v]>dist[u]+time){
+                    dist[v]=dist[u]+time;
+                    way[v]=way[u]%MOD;
+                    q.push({dist[v],v});
+                }
+                else if(dist[v]==dist[u]+time){
+                    way[v]=(way[v]+way[u])%MOD;
+                }
             }
         }
-       }return way[n-1]%mod;
+        return way[n-1]%MOD;
     }
 };
