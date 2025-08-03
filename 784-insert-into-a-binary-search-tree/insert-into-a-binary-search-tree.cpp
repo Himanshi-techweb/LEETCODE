@@ -10,31 +10,26 @@
  * };
  */
 class Solution {
-public:
-    TreeNode* insertIntoBST(TreeNode* root, int val) {
+public: 
+    TreeNode* solve(TreeNode* root,int val){
         if(root==NULL){
-            TreeNode* insert=new TreeNode(val);
-            return insert;
+            TreeNode* new_node=new TreeNode(val);
+            return new_node;
+            // return NULL;
         }
-        TreeNode* curr=root;
-        while(curr){
-            if(curr->val<=val){
-              if(curr->right)curr=curr->right;
-              else{
-                TreeNode* insert=new TreeNode(val);
-                curr->right=insert;
-                break;
-              }
-            }
-            else{
-                if(curr->left)curr=curr->left;
-                else{
-                  TreeNode* insert=new TreeNode(val);
-                  curr->left=insert; 
-                  break; 
-                }
-            }
+        // if(root->left==NULL && root->right==NULL){
+            
+        // }
+        // return;
+        if(root->val>val){
+            root->left= solve(root->left,val);
+        }
+        else {
+            root->right=solve(root->right,val);
         }
         return root;
+    }
+    TreeNode* insertIntoBST(TreeNode* root, int val) {
+       return solve(root,val); 
     }
 };
