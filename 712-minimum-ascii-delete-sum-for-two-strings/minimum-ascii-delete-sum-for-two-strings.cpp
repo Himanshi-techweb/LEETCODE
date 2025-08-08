@@ -20,9 +20,12 @@ public:
         if(dp[i][j]!=-1)return dp[i][j];
         long long cost=0;
         if(x[i]==y[j]){
-            return dp[i][j]=solve(i+1,j+1,x,y,dp);
+            cost=solve(i+1,j+1,x,y,dp);
         }
-        return dp[i][j]=min({(int)y[j]+solve(i,j+1,x,y,dp),(int)x[i]+solve(i+1,j,x,y,dp),(int)y[j]+(int)x[i]+solve(i+1,j+1,x,y,dp)});
+        else{
+            cost= min({(int)y[j]+solve(i,j+1,x,y,dp),(int)x[i]+solve(i+1,j,x,y,dp),(int)y[j]+(int)x[i]+solve(i+1,j+1,x,y,dp)});
+        }
+        return dp[i][j]=cost;
     }
     int minimumDeleteSum(string s1, string s2) {
         int x1=s1.size();int x2=s2.size();
