@@ -2,7 +2,7 @@ class Solution {
 public:
     vector<int> rc={-1,0,1};
     int solve(int i,int k,vector<int> &arr,unordered_map<int,int> &st,unordered_map<int,unordered_map<int,int>> &check){
-        if(i==arr.size()-1)return true;
+        if(i>=arr.size()-1)return true;
         if(check.find(i)!=check.end() && check[i].find(k)!=check[i].end())return check[i][k];
         bool ans=false;
         for(auto it:rc){
