@@ -1,24 +1,29 @@
 class Solution {
 public:
-    void nextPermutation(vector<int>& arr) {
-        int ix=-1;
-        for(int i=arr.size()-2;i>=0;i--){
-           if(arr[i]<arr[i+1]){
-            ix=i;break;
-           }
+    void nextPermutation(vector<int>& nums) {
+       //find first index at which it is increasing
+       int i=nums.size()-2;
+       int ix=-1;
+       while(i>=0){
+        if(nums[i]<nums[i+1]){
+          ix=i;
+          break; 
         }
-        if(ix==-1){
-            reverse(arr.begin(),arr.end());
+        i--;
+       } 
+       if(ix==-1){
+        reverse(nums.begin(),nums.end());
+        return;
+       }
+       //next largest number to it 
+       int before=INT_MAX;int k=-1;
+       for(int j=ix+1;j<nums.size();j++){
+        if(nums[ix]<nums[j] && before>nums[j]){
+          k=j;
+          before=nums[j];
         }
-        else{
-            for(int i=arr.size()-1;i>ix;i--){
-               if(arr[i]>arr[ix]){
-                swap(arr[i],arr[ix]);
-                break;
-               }
-            }
-            reverse(arr.begin()+ix+1,arr.end());
-        }
-        
+       }
+       if(k!=-1)swap(nums[ix],nums[k]);
+       sort(nums.begin()+ix+1,nums.end());
     }
 };
