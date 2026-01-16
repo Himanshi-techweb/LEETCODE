@@ -11,23 +11,21 @@ public:
        int MOD =1e9 +7;
        int hssize=hs.size();
        int vssize=vs.size();
-       for(int i=0;i<hssize;i++){
-        for(int j=i+1;j<hssize;j++){
-          h.insert(hs[j]-hs[i]);
-        }
-       }
-
        for(int i=0;i<vssize;i++){
         for(int j=i+1;j<vssize;j++){
           v.insert(vs[j]-vs[i]);
         }
        }
 
-        for(auto it:h){
-            if(v.find(it)!=v.end()){
-                ans=max(ans,((long long)it*it));
-            }
+       for(int i=0;i<hssize;i++){
+        for(int j=i+1;j<hssize;j++){
+          if(v.count(hs[j]-hs[i])){
+            int it=hs[j]-hs[i];
+            ans=max(ans,((long long)it*it));
+          }
         }
+       }
+
         return ans%MOD;
     }
 };
