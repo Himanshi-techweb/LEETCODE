@@ -18,15 +18,21 @@ public:
     vector<int> minBitwiseArray(vector<int>& nums) {
         vector<int> ans(nums.size(),-1);
         for(int i=0;i<nums.size();i++){
-           if(nums[i]==2)continue;
-           string x=toBinary(nums[i]);
-           int size=x.size();
-           size--;
-           while(size>=0 && x[size]=='1')size--;
-            
-            size++;
-            x[size]='0';
-           ans[i]=toDecimal(x);
+            if(nums[i]==2)continue;
+            int x=nums[i];
+            bool flag=false;
+            for(int j=0;j<32;j++){
+                if((nums[i] & (1<<j)) >0)continue;
+                else{
+                    int prev=j-1;
+                    x=nums[i] ^ (1<<prev);
+                    flag=true;
+                }
+                if(flag){
+                  ans[i]=x;
+                  break;
+                }  
+           } 
         }
         return ans;
     }
