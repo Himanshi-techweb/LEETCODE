@@ -17,7 +17,8 @@ public:
             int i=0;
             int sum=nums[0]+nums[1];
             for(int k=1;k<nums.size()-1;k++){
-              if(nums[k]+nums[k+1]<sum){
+              long long curr=(long long)nums[k]+nums[k+1];
+              if(curr<sum){
                 sum=nums[k]+nums[k+1];
                 i=k;
               }
