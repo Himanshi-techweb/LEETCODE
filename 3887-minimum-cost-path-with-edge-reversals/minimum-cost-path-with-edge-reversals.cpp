@@ -34,36 +34,6 @@ public:
     //     visit[i]=0;
     //     return dp[i]= min(mini1,mini2);
     // }
-    int check(
-    vector<vector<pair<int,int>>> &in,
-    vector<vector<pair<int,int>>> &out,
-    int n, int i,
-    vector<int> &dp){
-    if(i >= n) return INT_MAX;
-    if(i == n-1) return 0;
-    if(dp[i] != -1) return dp[i];
-
-    int mini1 = INT_MAX;
-    int mini2 = INT_MAX;
-
-    // normal edges
-    for(auto it : in[i]){
-        long long next = check(in, out, n, it.first, dp);
-        if(next < INT_MAX){
-            mini1 = min(mini1, it.second + (int)next);
-        }
-    }
-
-    // reversed edges (double cost)
-    for(auto it : out[i]){
-        long long next = check(in, out, n, it.first, dp);
-        if(next < INT_MAX){
-            mini2 = min(mini2, 2*it.second + (int)next);
-        }
-    }
-
-    return dp[i] = min(mini1, mini2);
-}
 
     // int minCost(int n, vector<vector<int>>& edges) {
     //    vector<vector<pair<int,int>>> in(n+1);
