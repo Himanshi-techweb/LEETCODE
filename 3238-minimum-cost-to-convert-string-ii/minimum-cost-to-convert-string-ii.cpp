@@ -1,8 +1,11 @@
 class Solution {
 public:
 typedef long long ll;
-
+unordered_map<string,unordered_map<string,int>> adj;
 const ll INF=1e18;
+vector<ll> dp;
+string src;string tar;
+set<int> st;
 long long dijkstra(
     string &src,
     string &dest,
@@ -41,12 +44,12 @@ long long dijkstra(
     return (!dist.count(dest)? INF:dist[dest]);
 }
 
-    long long solve(int i,string &src,string tar,set<int> &st,unordered_map<string,unordered_map<string,int>> &adj, vector<ll> &dp){
+    long long solve(int i){
         if(i>=src.size())return 0;
         ll mini=INF;
         if(dp[i]!=-1)return dp[i];
         if(src[i]==tar[i]){
-            mini=solve(i+1,src,tar,st,adj,dp);
+            mini=solve(i+1);
         }
         for(auto it:st){
             if(it+i>src.size() || it+i>tar.size())break;
@@ -56,22 +59,22 @@ long long dijkstra(
             ll minpathcost=INF;
             minpathcost=dijkstra(srcstr,tarstr,adj);
             if(minpathcost==INF)continue;
-            mini=min(mini,minpathcost+solve(i+it,src,tar,st,adj,dp));
+            mini=min(mini,minpathcost+solve(i+it));
         }
         return dp[i]=mini;
     }
     long long minimumCost(string source, string target, vector<string>& original, vector<string>& changed, vector<int>& cost) {
-        unordered_map<string,unordered_map<string,int>> adj;
         for(int i=0;i<original.size();i++){
                 adj[original[i]][changed[i]]=min((ll)cost[i],adj[original[i]][changed[i]]==0?INF:adj[original[i]][changed[i]]);
                 // adj[original[i]][changed[i]]=cost[i]; 
         }
-        set<int> st;
         for(int i=0;i<original.size();i++){
             st.insert(original[i].size());
         }
-        vector<ll> dp(source.size(),-1);
-        long long ans= solve(0,source,target,st,adj,dp);
+        src=source;tar=target;
+        // vector<ll> dp(source.size(),-1);
+        dp.resize(source.size()+1,-1);
+        long long ans= solve(0);
         if(ans==INF)return -1;
         return ans;
         
