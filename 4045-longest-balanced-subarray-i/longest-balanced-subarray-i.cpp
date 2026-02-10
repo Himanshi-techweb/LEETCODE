@@ -2,13 +2,12 @@ class Solution {
 public:
     int longestBalanced(vector<int>& nums) {
         int ans=0;
-        unordered_set<int> check;
-       for(int i=0;i<nums.size();i++){
-        check.clear();
+        vector<int> check(1e5 + 5 ,-1);
+        for(int i=0;i<nums.size();i++){
         int even=0;int odd=0;
         for(int j=i;j<nums.size();j++){
-            if(!check.count(nums[j])){
-               check.insert(nums[j]);
+            if(check[nums[j]]<i){
+               check[nums[j]]=i;
                if(nums[j]%2==0)even++;
                else odd++;
             }   
