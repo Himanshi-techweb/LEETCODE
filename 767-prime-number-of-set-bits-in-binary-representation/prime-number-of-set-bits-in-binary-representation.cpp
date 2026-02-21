@@ -22,16 +22,7 @@ public:
         //1e4
         for(long long i=left;i<=right;i++){
             //each i
-            long long k=i;
-            int count=0;
-            //logn
-            while(k>0){
-                int rem=k%2;
-                count+=(rem==1)?1:0;
-                k=k/2;
-            }
-            cout<<count<<" "<<prime[count]<<" "<<i<<endl;
-            if(prime[count])ans++;
+            if(prime[__builtin_popcount(i)])ans++;
         }
         return ans;
         //  return 0;
