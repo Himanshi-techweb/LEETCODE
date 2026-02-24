@@ -12,31 +12,22 @@
 class Solution {
 public:
     int sum=0;
-    int check(vector<int> &arr){
-        // reverse(arr.begin(),arr.end());
-        int count=1;int x=arr[arr.size()-1];
-        for(int i=arr.size()-2;i>=0;i--){
-           x=x+(2*count)*arr[i];
-           count=count*2;
-        }
-        return x;
-    }
-    void solve(TreeNode* root,vector<int> &arr){
+    
+    void solve(TreeNode* root,vector<int> &arr,int curr){
       if(root==NULL ){
          return ;
       }
-       arr.push_back(root->val);
-       if(root->left==NULL && root->right==NULL)sum+=check(arr);    
-        
-        if(root->left)
-        solve(root->left,arr);
-        if(root->right)
-        solve(root->right,arr);
-        arr.pop_back();  
+       
+       curr=curr*2 +root->val;
+       if(root->left==NULL && root->right==NULL){
+          sum+=curr;return;
+       }    
+        solve(root->left,arr,curr);
+        solve(root->right,arr,curr);
     }
     int sumRootToLeaf(TreeNode* root) {
         vector<int>arr;
-        solve(root,arr);
+        solve(root,arr,0);
         return sum;
     }
 };
