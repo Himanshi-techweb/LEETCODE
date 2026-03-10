@@ -1,29 +1,41 @@
 class Solution {
 public:
+    const int MOD = 1'000'000'007;
+    int ans=0;
+    int check(int countzero,int countone,int limit,int zero,int one,int back,vector<vector<vector<int>>> &dp){
+       //
+       if(countzero==zero && countone==one){
+        return 1;
+       } 
+       if(countzero>zero || countone>one)return 0;
+
+       if(dp[countzero][countone][back]!=-1)return dp[countzero][countone][back];
+       int count=0;
+       //check if back is zero or one 
+       //if one then start loop from 1 to limit
+
+       if(back){
+        for(int i=1;i<=limit;i++){
+            count=(count +check(countzero+i,countone,limit,zero,one,0,dp)%MOD)%MOD;
+        }
+       }
+       else{
+        for(int i=1;i<=limit;i++){
+            count=(count+check(countzero,countone+i,limit,zero,one,1,dp)%MOD)%MOD;
+        }
+       }
+       return dp[countzero][countone][back]=count;
+    }
     int numberOfStableArrays(int zero, int one, int limit) {
-        constexpr int kMod = 1'000'000'007;
-    // dp[i][j][k] := the number of stable arrays, where the number of
-    // ocurrences of 0 is i and the number of ocurrences of 1 is j and the last
-    // number is k (0/1)
-    vector<vector<vector<long>>> dp(
-        zero + 1, vector<vector<long>>(one + 1, vector<long>(2)));
-
-    for (int i = 0; i <= min(zero, limit); ++i)
-      dp[i][0][0] = 1;
-
-    for (int j = 0; j <= min(one, limit); ++j)
-      dp[0][j][1] = 1;
-
-    for (int i = 1; i <= zero; ++i)
-      for (int j = 1; j <= one; ++j) {
-        dp[i][j][0] = (dp[i - 1][j][0] + dp[i - 1][j][1] -
-                       (i - limit < 1 ? 0 : dp[i - limit - 1][j][1]) + kMod) %
-                      kMod;
-        dp[i][j][1] = (dp[i][j - 1][0] + dp[i][j - 1][1] -
-                       (j - limit < 1 ? 0 : dp[i][j - limit - 1][0]) + kMod) %
-                      kMod;
-      }
-
-    return (dp[zero][one][0] + dp[zero][one][1]) % kMod;
+        vector<vector<vector<int>>> dp(zero+10,vector<vector<int>>(one+10,vector<int>(2,-1)));
+        for(int i=1;i<=limit;i++){
+          ans+=check(i,0,limit,zero,one,0,dp);
+          ans=ans%MOD;
+        }
+        for(int i=1;i<=limit;i++){
+           ans+=check(0,i,limit,zero,one,1,dp);
+           ans=ans%MOD;
+        }
+        return ans;
     }
 };
