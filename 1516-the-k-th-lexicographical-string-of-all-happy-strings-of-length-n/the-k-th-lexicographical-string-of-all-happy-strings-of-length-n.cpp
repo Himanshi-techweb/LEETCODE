@@ -33,9 +33,26 @@ public:
         }
     }
     string getHappyString(int n, int k) {
-        string x="";
-        int count=0;
-        check(count,k,x,n);
-        return ans;
+         string x="";
+        // int count=0;
+        // check(count,k,x,n);
+        // return ans;
+
+
+
+        for(int i=0;i<n;i++){
+            for(char ch:l){
+                if(!x.empty() && x.back()==ch)continue;
+                int j=n-i-1;
+                int cnt=1<<j;
+                if(k>cnt)k-=cnt;
+                else{
+                    x.push_back(ch);
+                    break;
+                }
+            }
+        }
+        if(x.size()!=n)return "";
+        return x;
     }
 };
