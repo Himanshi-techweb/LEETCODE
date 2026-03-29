@@ -56,8 +56,9 @@ public:
         }
 
         //then maxlrn
-        string curr="";
+        
         for(int l=maxlen;l>=0;l--){
+            string curr="";
             vector<int> temprequire=require;
             if(backtracking(s,curr,temprequire,canuse,l,k))return result;
 
