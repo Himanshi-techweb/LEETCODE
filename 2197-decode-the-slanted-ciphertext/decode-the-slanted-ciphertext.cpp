@@ -5,11 +5,11 @@ public:
         if(encodedText.size()==0)return "";
         vector<vector<char>> arr(rows,vector<char>(cols));
         int k=0;
-        for(int i=0;i<rows;i++){
-            for(int j=0;j<cols;j++){
-                arr[i][j]=encodedText[k++];
-            }
-        }
+        // for(int i=0;i<rows;i++){
+        //     for(int j=0;j<cols;j++){
+        //         arr[i][j]=encodedText[k++];
+        //     }
+        // }
 
 
         //traverse from 0,0 to row-1,col-1
@@ -21,7 +21,8 @@ public:
             int i=0;int k=j;
             // if(j!=0 && arr[0][j]==' ')break;
             while(i<rows && k<cols){
-                str.push_back(arr[i++][k++]);
+                str.push_back(encodedText[(i*cols +k)]);
+                i++;k++;
             }
         }
         int i=str.size()-1;
