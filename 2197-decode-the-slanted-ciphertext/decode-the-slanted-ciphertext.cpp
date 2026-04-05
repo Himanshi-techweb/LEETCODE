@@ -2,6 +2,7 @@ class Solution {
 public:
     string decodeCiphertext(string encodedText, int rows) {
         int cols=encodedText.size()/rows;
+        if(encodedText.size()==0)return "";
         vector<vector<char>> arr(rows,vector<char>(cols));
         int k=0;
         for(int i=0;i<rows;i++){
@@ -24,12 +25,11 @@ public:
             }
         }
         int i=str.size()-1;
-        while(i>=0 && str[i]==' '){
-            if(str[i]>='a' && str[i]<='z')break;
-            i--;
+        while(str.back()==' '){
+            str.pop_back();
         }
         // for(int k=0;k<i;k++)cout<<str[k];
         
-        return str.substr(0,i+1);
+        return str;
     }
 };
