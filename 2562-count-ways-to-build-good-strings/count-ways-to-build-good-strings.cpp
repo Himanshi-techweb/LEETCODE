@@ -1,19 +1,21 @@
 class Solution {
 public:
-    const int MOD=1e9 +7;
-    int solve(int low,int high,int zero,int one,int len,vector<int> &dp){
-        if(len>high)return 0;
-        if(dp[len]!=-1)return dp[len];
-        bool addone=false;
-        if(len>=low && len<=high )addone=true;
-        //append 0
+    unordered_map<int,int> dp;
+    const int MOD=1e9 + 7;
+    int solve(int l,int h,int z,int o,int len){
+        if(len>h)return 0;
+        if(dp.find(len)!=dp.end())return dp[len];
+        long long ans=(len>=l);
+
+        ans+=solve(l,h,z,o,len+z);
+        ans+=solve(l,h,z,o,len+o);
+
+
+        return dp[len]=ans%MOD;
         
-        int take_0=solve(low,high,zero,one,len+zero,dp)%MOD;
-        int take_1=solve(low,high,zero,one,len+one,dp)%MOD;
-        return dp[len]=(addone+take_0+take_1)%MOD;
     }
     int countGoodStrings(int low, int high, int zero, int one) {
-        vector<int> dp(high+1,-1);
-        return solve(low,high,zero,one,0,dp);
+        string str="";
+        return solve(low,high,zero,one,0);
     }
 };
