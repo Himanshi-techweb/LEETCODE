@@ -20,7 +20,7 @@ public:
             //consume fuel
             //consider it ok
             // if(fuel-abs(arr[i]-arr[j])>=0 && j==f)way=way+1;
-            way=(way+solve(j,arr,fuel-abs(arr[i]-arr[j])))%MOD;
+            if(fuel-(abs(arr[i]-arr[j]))>=0)way=(way+solve(j,arr,fuel-abs(arr[i]-arr[j])))%MOD;
         }
         return dp[i][fuel]=way%MOD;
     }
