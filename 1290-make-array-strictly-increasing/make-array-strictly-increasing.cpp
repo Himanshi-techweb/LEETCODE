@@ -10,12 +10,12 @@ public:
         int before=(prev==-1)?INT_MIN:prev;
         //try1 
         if(x[i]>before){
-            ans1=solve(i+1,x[i],x,y);
+            ans1=min(ans1,solve(i+1,x[i],x,y));
         }
         auto nextindex=upper_bound(y.begin(),y.end(),before);
         if(nextindex!=y.end()){
             
-            ans2=1+solve(i+1,*nextindex,x,y);
+            ans2=min(ans2,1+solve(i+1,*nextindex,x,y));
             
         }
         
