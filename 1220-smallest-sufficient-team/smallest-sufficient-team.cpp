@@ -1,47 +1,54 @@
 class Solution {
 public:
-    int m;int n;int target;
-    vector<int> result;
-    unordered_map<int,unordered_map<int,int>> dp;
-    void solve(int i,vector<int> &people_skill,vector<int> &temp,int mask){
-            if(mask==target){
-                if(result.size()==0 || result.size()>temp.size()){
-                    result=temp;
-                    return;
-                }
+    vector<int> res;int n;
+    int k;
+    unordered_map<string,int> flag;
+    void solve(int i,vector<int> &arr,vector<int> &temp,int mask,vector<vector<string>> &people){
+        if(i>=n){
+            if((res.size()==0 || res.size()>temp.size()) && mask==k){
+                res=temp;
             }
-        if(i>=people_skill.size())return;   
-        // string key=to_string(i)+' '+to_string(mask);
-        if(dp.count(i) && dp[i].count(mask) && dp[i][mask]!=-1 && dp[i][mask]<=temp.size())return ;   
-        // if(result.size()!=0 && result.size()<temp.size())return;
-        solve(i+1,people_skill,temp,mask);
-        if((mask| people_skill[i])!=mask){
+            return;
+        }
+       
+        if(res.size()>0 && res.size()<temp.size())return;
+        string key=to_string(i)+"_"+to_string(mask);
+        if(flag.find(key)!=flag.end()){
+            if(flag[key]<=temp.size())return ;
+        }
+        //skip 
+        solve(i+1,arr,temp,mask,people);
+
+        //take
+        if(people[i].size()>0 ){
             temp.push_back(i);
-            solve(i+1,people_skill,temp,mask| people_skill[i]);
+            solve(i+1,arr,temp,mask|arr[i],people);
             temp.pop_back();
+            flag[key]=(temp.size()!=0)?temp.size():-1;
         }
-        dp[i][mask]=(temp.size()!=0)?temp.size():-1;
+
     }
-    vector<int> smallestSufficientTeam(vector<string>& req_skills, vector<vector<string>>& people) {
-      int m=req_skills.size();
-      int n=people.size();
-      
-      unordered_map<string,int> skills;
-      for(int i=0;i<m;i++){
-        skills[req_skills[i]]=i;
-      } 
-      vector<int> people_skill;
-      for(auto i:people){
-        int skill_bit=0;
-        for(auto skill:i){
-          skill_bit=skill_bit | (1<<skills[skill]);
+    vector<int> smallestSufficientTeam(vector<string>& req, vector<vector<string>>& people) {
+        unordered_map<string,int> st;
+        int cnt=0;
+        n=people.size();  
+        k=(1<<req.size())-1;
+        
+        for(int i=0;i<req.size();i++){
+            string str=req[i];
+            st[str]=cnt++;
         }
-        people_skill.push_back(skill_bit);
-      }
-      target= (1<<m)-1;
-      vector<int> curr;
-      int mask=0;
-      solve(0,people_skill,curr,mask);
-      return result; 
+        
+        //create arr of mask  skill 
+       
+        vector<int> arr(n,0);
+        for(int i=0;i<people.size();i++){
+            for(auto it:people[i]){
+                arr[i]=arr[i] | (1<<st[it]);
+            }
+        }
+        vector<int> temp;
+        solve(0,arr,temp,0,people);
+        return res;
     }
 };
