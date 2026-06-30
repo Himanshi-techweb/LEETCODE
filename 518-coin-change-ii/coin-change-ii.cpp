@@ -1,18 +1,21 @@
 class Solution {
 public:
-    long long solve(int i,int amount,vector<int> &arr,vector<vector<int>> &dp){
-        if(i==0){
-            if(amount%arr[0]==0) return 1;
-            return 0;
-        }
-        if(dp[i][amount]!=-1)return dp[i][amount];
-        long long take=0;
-        if(arr[i]<=amount)take=solve(i,amount-arr[i],arr,dp);
-        long long nottake=solve(i-1,amount,arr,dp);
-        return dp[i][amount]=take+nottake; 
+    vector<vector<int>> dp;
+    int solve(int a,int i,vector<int> &coins){
+        if(a<0)return 0;
+        if(i==coins.size())return 0;
+        if(a==0)return 1;
+        
+        if(dp[a][i]!=-1)return dp[a][i];
+        int res=0;
+        //take
+        res+=solve(a-coins[i],i,coins);
+        res+=solve(a,i+1,coins);
+        return dp[a][i]=res;
+
     }
-    int change(int amount,vector<int>& coins) {
-        vector<vector<int>> dp(coins.size(),vector<int> (amount+1,-1));
-        return solve(coins.size()-1,amount,coins,dp);
+    int change(int amount, vector<int>& coins) {
+        dp.resize(amount+10,vector<int>(coins.size()+10,-1));
+        return solve(amount,0,coins);
     }
 };
