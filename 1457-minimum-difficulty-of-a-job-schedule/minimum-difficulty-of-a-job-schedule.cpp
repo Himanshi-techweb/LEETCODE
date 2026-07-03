@@ -1,28 +1,26 @@
 class Solution {
 public:
-    int solve(int idx,int day,vector<int> &arr,vector<vector<int>> &dp,int n){
-        if(idx<0)return 0;
-        if(day==1){
-            int maxD=arr[idx];
-            for(int i=idx;i<n;i++){
-                maxD=max(maxD,arr[i]);
-            }
-            return maxD;
+    vector<vector<int>> dp;
+    long long solve(int i,int day,vector<int>&arr){
+        if(i>=arr.size()){
+            if(day<=0)return 0;
+            return INT_MAX;
         }
-        if(dp[idx][day]!=-1)return dp[idx][day];
-        int maxD=arr[idx];int finalans=INT_MAX;
-        for(int i=idx;i<n-day+1;i++){
-            maxD=max(maxD,arr[i]);
-            int result=maxD+solve(i+1,day-1,arr,dp,n);
-            finalans=min(finalans,result);
+
+        if(dp[i][day]!=-1)return dp[i][day];
+        long long take=0;int maxi=0;
+        long long ans=INT_MAX;
+        for(int k=i;k<arr.size();k++){
+            maxi=max(maxi,arr[k]);
+            if(day-1>=0){take=maxi+(long long)solve(k+1,day-1,arr);
+            ans=min(ans,take);}
         }
-        return dp[idx][day]=finalans;
+        return dp[i][day]=ans;
+
     }
     int minDifficulty(vector<int>& jobDifficulty, int d) {
-        int n=jobDifficulty.size();
-        if(n<d)return -1;
-        vector<vector<int>> dp(n+1,vector<int> (d+1,-1));
-        return solve(0,d,jobDifficulty,dp,n);
-       
+        if(jobDifficulty.size()<d)return -1;
+        dp.resize(jobDifficulty.size()+11,vector<int>(d+10,-1));
+        return solve(0,d,jobDifficulty);
     }
 };
