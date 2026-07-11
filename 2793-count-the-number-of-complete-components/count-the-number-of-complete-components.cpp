@@ -1,31 +1,43 @@
 class Solution {
 public:
-    vector<int> vis;
-    void dfs(int node,vector<vector<int>>& adj,int &nodes,int &edges){
-        nodes++;
-        edges+=adj[node].size();
-        vis[node]=1;
-        for(auto edge:adj[node]){
-            if(!vis[edge]){
-                dfs(edge,adj,nodes,edges);
+    pair<int,int> dfs(int i,vector<vector<int>>&adj,vector<int>&visit){
+        visit[i]=true;
+        int cntedge=0;int cntnode=1;
+        for(auto it:adj[i]){
+            cntedge++;
+            if(!visit[it]){
+                auto x=dfs(it,adj,visit);
+                cntedge+=x.first;
+                cntnode+=x.second;
             }
         }
+        
+        return {cntedge,cntnode};
     }
+    //0->1
+    //1->0,2
+    //2->1
+    //0 se 1 then cntedge=1 and cntnode=1
+
     int countCompleteComponents(int n, vector<vector<int>>& edges) {
         vector<vector<int>> adj(n);
-        for(int i=0;i<edges.size();i++){
-            int node1=edges[i][0];int node2=edges[i][1];
-            adj[node1].push_back(node2);
-            adj[node2].push_back(node1);
+        for(auto it:edges){
+            adj[it[0]].push_back(it[1]);
+            adj[it[1]].push_back(it[0]);
         }
-        vis.resize(n,0);int k=0;
+        vector<int> visit(n,false);
+        int ans=0;
         for(int i=0;i<n;i++){
-           if(!vis[i]){
-            int nodes=0;int edges=0;
-            dfs(i,adj,nodes,edges);
-            edges=edges/2;
-            if(edges==(nodes*(nodes-1)/2)){k++;}
-           }
-        }return k;
+            if(!visit[i]){
+                pair<int,int> count=dfs(i,adj,visit);
+                int countedge=count.first;
+                int countnode=count.second;
+                // cout<<i<<" "<<countedge<<" "<<countnode<<endl;
+                if(countnode==1)ans++;
+                else if(countnode==2 && countedge==2)ans++;
+                else if(countedge>=(countnode*countnode)-countnode)ans++;
+            }
+        }
+        return ans;
     }
 };
