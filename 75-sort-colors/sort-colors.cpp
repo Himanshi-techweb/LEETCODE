@@ -1,19 +1,24 @@
 class Solution {
 public:
     void sortColors(vector<int>& arr) {
-      int low=0;int mid=0;int high=arr.size()-1; 
-      while(mid<=high){
-        if(arr[mid]==0){
-            swap(arr[low],arr[mid]);
-            low++;mid++;
-        }
-        else if(arr[mid]==1){
-            mid++;
-        }
-        else{
-            swap(arr[high],arr[mid]);
-            high--;
-        }
-      } 
+       int l=-1;
+       int r=arr.size()-1;
+       int k=0;
+       while(k<=r){
+         if(arr[k]==2){
+            swap(arr[r],arr[k]);
+            r--;
+         }
+         else if(arr[k]==0){
+            swap(arr[++l],arr[k]);
+           
+            k++;
+         }
+         else{
+            k++;
+         }
+
+       } 
+       
     }
 };
