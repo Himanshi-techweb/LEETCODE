@@ -19,8 +19,9 @@ public:
         return dp[s][e][kon]=res;
     }
     bool stoneGame(vector<int>& piles) {
-        dp.resize(piles.size(),vector<vector<int>>(piles.size(),vector<int>(2,-1)));
-        return solve(0,piles.size()-1,piles,0);
+        // dp.resize(piles.size(),vector<vector<int>>(piles.size(),vector<int>(2,-1)));
+        // return solve(0,piles.size()-1,piles,0);
+        return true;
         
     }
 };
