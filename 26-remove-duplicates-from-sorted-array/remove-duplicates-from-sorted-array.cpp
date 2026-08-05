@@ -1,20 +1,19 @@
 class Solution {
 public:
-    int removeDuplicates(vector<int>& arr) {
-       int curr=1;int next=0;
-       while(curr<arr.size()){
-           if(arr[curr]==arr[next]){
-            curr++;
-           }
-           else{
-             if(next+1<arr.size()  && curr!=next){
-                swap(arr[next+1],arr[curr]);
-                next=next+1;
-                
-             }
-             curr++;
-           }
-       }
-       return next+1;
+    int removeDuplicates(vector<int>& nums) {
+        if(nums.size()==1)return {nums[0]};
+        int i=1;
+        int curr=0;int cnt=1;
+        while(i<nums.size()){
+            while(i<nums.size() && nums[curr]==nums[i])i++;
+            if(curr+1<nums.size() && i<nums.size()){
+                nums[curr+1]=nums[i];
+                cnt++;
+                curr=curr+1;
+            }
+
+        }
+        
+        return cnt;
     }
 };
