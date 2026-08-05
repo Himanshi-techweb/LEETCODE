@@ -13,7 +13,7 @@ public:
         if(nums[i]!=0){
             swap(nums[i],nums[curr]);
             //next curr will that index from curr whose value is zero
-            while(curr<=i && nums[curr]!=0)curr++;
+            curr++;
         }
         i++;
        }
