@@ -1,50 +1,38 @@
 class Solution {
 public:
-    // vector<int> majorityElement(vector<int>& arr) {
-    //    unordered_map<int,int> check;int n=arr.size();
-    //    vector<int> ans;
-    //    for(auto x:arr){
-    //       check[x]++;
-    //    }
-    //    for(auto x:check){
-    //     if(x.second>n/3){
-    //         ans.push_back(x.first);
-    //     }
-    //    }
-    //    return ans; 
-    // }
-
-
-    vector<int> majorityElement(vector<int>& arr) {
-       int count1=0;int count2=0;
-       int ele1=0;int ele2=0;
-       for(auto x:arr){
-        if(count1==0 &&  x!=ele2){
-            count1=1;
-            ele1=x;
+    vector<int> majorityElement(vector<int>& nums) {
+        int num1=-1;
+        int num2=-1;
+        int cnt1=0;
+        int cnt2=0;
+        for(int i=0;i<nums.size();i++){
+            if(num1==-1 && num2!=nums[i]){
+                num1=nums[i];
+                cnt1=1;
+            }
+            else if(nums[i]==num1)cnt1++;
+            else if(num2==-1 && num1!=nums[i]){
+                num2=nums[i];
+                cnt2=1;
+            }
+            else if(nums[i]==num2)cnt2++;
+            else{
+                cnt1--;
+                if(cnt1==0)num1=-1;
+                cnt2--;
+                if(cnt2==0)num2=-1;
+            }
         }
-        else if(count2==0 &&  x!=ele1){
-            count2=1;
-            ele2=x;
+        int cnt=0;
+        cnt=1+(nums.size()/3);
+        cnt1=0;cnt2=0;
+        for(int i=0;i<nums.size();i++){
+           if(nums[i]==num1)cnt1++;
+           if(nums[i]==num2)cnt2++;
         }
-        else if(x==ele1){
-            count1++;
-        }
-        else if(x==ele2){
-            count2++;
-        }
-        else{
-            count1--;count2--;
-        }
-       }
-       count1=0;count2=0;
-       for(auto x: arr){
-        if(ele1==x)count1++;
-        if(ele2==x)count2++;
-       }
-       int check=(int)arr.size()/3  + 1;vector<int> ans;
-       if(count1>=check)ans.push_back(ele1);
-       if(ele1 !=ele2 && count2>=check)ans.push_back(ele2);
-       return ans;
+        vector<int> ans;
+        if(cnt1>=cnt)ans.push_back(num1);
+        if(cnt2>=cnt && num2!=num1)ans.push_back(num2);
+        return ans;
     }
 };
