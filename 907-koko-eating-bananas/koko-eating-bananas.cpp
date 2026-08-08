@@ -1,29 +1,29 @@
 class Solution {
 public:
-    bool check(vector<int> &arr,int mid,int h){
+    bool solve(int mid,vector<int>&piles,int k){
         long long cnt=0;
-        for(int i=0;i<arr.size();i++){
-            if(arr[i]<mid)cnt++;
-            else if(arr[i]%mid==0)cnt+=(arr[i]/mid);
-            else if(arr[i]%mid!=0){
-                cnt+=(arr[i]/mid);
-                cnt++;
-            }
+        for(int i=0;i<piles.size();i++){
+            cnt+=(piles[i]/mid);
+            if(piles[i]%mid!=0)cnt+=1;
+            if(cnt>k)return false;
         }
-        return cnt<=h;
+        cout<<mid<<" "<<cnt<<endl;
+        return cnt<=k;
     }
-    int minEatingSpeed(vector<int>& piles, int h) {
-        int low=1;
-        int high=*max_element(piles.begin(),piles.end());
-        int ans=0;
-        while(low<=high){
-            int mid=low+(high-low)/2;
-            if(check(piles,mid,h)){
+    int minEatingSpeed(vector<int>& piles, int k) {
+        sort(piles.begin(),piles.end());
+        int l=1;int h=piles[piles.size()-1];
+        int ans=piles[0];
+        while(l<=h){
+            int mid=(l+h)/2;
+            if(solve(mid,piles,k)){
                 ans=mid;
-                high=mid-1;
+                h=mid-1;
             }
-            else low=mid+1;
+            else l=mid+1;
         }
         return ans;
+
+
     }
 };
