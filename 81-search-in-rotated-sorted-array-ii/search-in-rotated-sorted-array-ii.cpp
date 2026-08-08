@@ -1,23 +1,25 @@
 class Solution {
 public:
-    bool search(vector<int>& arr, int target) {
-       int low=0;int high=arr.size()-1;
-        while(low<=high){
-        int  mid=low+(high-low)/2;
-        if(arr[mid]==target)return true;
-        while(arr[low]==arr[mid] && arr[mid]==arr[high]){
-            low++;high--;
-            if(low>=arr.size() || high<0)return false;
+    bool search(vector<int>& arr, int t) {
+        //may be left part sort or right part or both can 
+        int l=0;int h=arr.size()-1;
+        while(l<=h){
+            int m=(l+h)/2;
+            //left sort
+            if(arr[m]==t)return true;
+
+            else if(arr[l]<=arr[m]){
+                if(t>=arr[l] && t<=arr[m])h--;
+                else l++;
+
+            }
+            //right sort
+            else if(arr[m]<=arr[h]){
+                if(t>=arr[m] && t<=arr[h])l++;
+                else h--;
+
+            }
         }
-        if(arr[low]<=arr[mid]){
-            if(arr[low]<=target  && target<arr[mid])high=mid-1;
-            else low=mid+1;
-        }
-        else{
-            if(arr[mid]<target && target<=arr[high])low=mid+1;
-            else high=mid-1;
-        }
-       }  
-       return false;  
+        return false;
     }
 };
