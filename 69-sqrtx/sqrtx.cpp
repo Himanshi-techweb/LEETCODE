@@ -2,18 +2,20 @@ class Solution {
 public:
     int mySqrt(int x) {
         if(x==0)return 0;
-        if(x==1)return 1;
-        int low=1;
-        int high=x;int ans=1;
-        while(low<=high){
-            long long mid =low + (high-low)/2;
-            if(mid*mid==x)return mid;
-            if(mid*mid >x)high=mid-1;
-            else {
-                ans=mid;
-                low=mid+1;
+        long long ans=0;
+        int l=1;int h=x;
+        while(l<=h){
+            long long mid=l+(h-l)/2;
+            long long k=1LL*mid*mid;
+            if(k==x)return mid;
+            else if(k>x){
+                h=mid-1;
             }
-        }
-        return ans; 
+            else{
+                ans=mid;
+                l=mid+1;
+            }
+        }  
+        return ans;
     }
 };
