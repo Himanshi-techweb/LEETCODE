@@ -13,13 +13,12 @@ class Solution {
 public:
     long long maxsum=INT_MIN;
     long long solve(TreeNode* root){
-        if(root==NULL)return 0;
-        long long leftsum=max(0LL,solve(root->left));
-        long long rightsum=max(0LL,solve(root->right));
-        // if(leftsum==INT_MIN  && rightsum==INT_MIN)return root->val;
-        
-        maxsum=max({maxsum,leftsum+rightsum+root->val,(long long)(root->val)});
-        return root->val+max(leftsum,rightsum); 
+        if(root==NULL)return INT_MIN;
+        long long l=max(0LL,solve(root->left));
+        long long r=max(0LL,solve(root->right));
+        maxsum=max(maxsum,l+r+root->val);
+        return root->val+max(l,r);
+
     }
     int maxPathSum(TreeNode* root) {
         solve(root);
