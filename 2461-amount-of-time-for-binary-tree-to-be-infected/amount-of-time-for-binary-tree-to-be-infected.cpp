@@ -11,52 +11,68 @@
  */
 class Solution {
 public:
-    TreeNode* find(TreeNode* root,int start){
-        if(root==NULL)return root;
-        if(root->val==start)return root;
-        TreeNode* left= find(root->left,start);
-        if(left)return left;
-        return find(root->right,start);
+    TreeNode* target;
+    void solve(TreeNode* root,int t){
+        if(root==NULL)return ;
+        if(root->val==t){
+            target=root;return;
+        }
+        solve(root->left,t);
+        solve(root->right,t);
+        
     }
-    int amountOfTime(TreeNode* root, int start) {
-        unordered_map<TreeNode*,TreeNode*> top;
+    int amountOfTime(TreeNode* root, int t) {
+        unordered_map<TreeNode* ,TreeNode*>st;
         queue<TreeNode*> q;
         q.push(root);
-        top[root]=NULL;
+        st[root]=new TreeNode(-1);
         while(!q.empty()){
-            TreeNode* node=q.front();
-            q.pop();
-            if(node->left){
-                q.push(node->left);
-                top[node->left]=node;
+            auto front=q.front();q.pop();
+            if(front->left){
+                q.push(front->left);
+                st[front->left]=front;
             }
-            if(node->right){
-                q.push(node->right);
-                top[node->right]=node;
+            if(front->right){
+                q.push(front->right);
+                st[front->right]=front;
             }
         }
-        
-        
-
-
-        unordered_set<TreeNode* > st;
-        TreeNode* start_node=find(root,start);
-        queue<TreeNode*> check;
-        check.push(start_node);
+        solve(root,t);
+        q.push(target);
         int cnt=0;
-        while(!check.empty()){
-            int size=check.size();
-            if(size>0)cnt++;
+        
+        vector<int> ans;
+        unordered_map<TreeNode*,bool> flag;
+        flag[target]=true;
+        
+        while(!q.empty() ){
+            int size=q.size();
+            cnt++;
             for(int i=0;i<size;i++){
-                TreeNode* front=check.front();
-                st.insert(front);
-                check.pop();
-                if(front->left && st.find(front->left)==st.end())check.push(front->left);
-                if(front->right && st.find(front->right)==st.end())check.push(front->right);
-                if(top[front]!=NULL && st.find(top[front])==st.end())check.push(top[front]);
+                auto front=q.front();q.pop();
+                //try it child
+                if(front->left && !flag.count(front->left)){
+                    q.push(front->left);
+                    
+                    flag[front->left]=true;
+                }
+                if(front->right && !flag.count(front->right)){
+                    q.push(front->right);
+                    
+                    flag[front->right]=true;
+                }
+                //try it parent
+                TreeNode* back=st[front];
+                if(back->val!=-1 && !flag.count(back)){
+                    q.push(back);
+                    
+                    flag[back]=true;
+                }
             }
-           
+            
+            
         }
+        
         return cnt-1;
     }
 };
