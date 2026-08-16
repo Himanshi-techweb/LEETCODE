@@ -11,15 +11,26 @@
  */
 class Solution {
 public:
-    TreeNode* check(vector<int> &pre,int &i,int ub){
-        if(i>pre.size()-1 || pre[i]>ub)return NULL;
-        TreeNode* node=new TreeNode(pre[i++]);
-        node->left=check(pre,i,node->val);
-        node->right=check(pre,i,ub);
-        return node;
+    unordered_map<int,int> st;
+    TreeNode* solve(int &i,int s,int e,vector<int>&pre){
+        if(s>e || i>=pre.size())return NULL;
+        int rootval=pre[i];
+        int index=st[rootval];
+        i++;
+        TreeNode* root=new TreeNode(rootval);
+        root->left=solve(i,s,index-1,pre);
+        root->right=solve(i,index+1,e,pre);
+        return root;
     }
     TreeNode* bstFromPreorder(vector<int>& preorder) {
+        vector<int> in=preorder;
+        sort(in.begin(),in.end());
+        
+        for(int i=0;i<in.size();i++){
+            st[in[i]]=i;
+        }
         int i=0;
-        return check(preorder,i,INT_MAX);
+        return solve(i,0,in.size(),preorder);
+
     }
 };
