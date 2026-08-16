@@ -11,50 +11,39 @@
  */
 class Solution {
 public:
-    TreeNode* solve(TreeNode* root, int key){
-        if(root==NULL)return NULL;
-        if(root->val==key){//node there
-          if(root->left==NULL && root->right==NULL){
-             delete root;
-             return NULL;
-          }
-          else if(root->left==NULL || root->right==NULL){
-            //left child exist;
-            if(root->left){
-                TreeNode* temp=root->left;
-                while(temp->right)temp=temp->right;
-                int x=temp->val;
-                temp->val=root->val;root->val=x;
-                root->left= solve(root->left,key);
-            }
-            else if(root->right){
-                TreeNode* temp=root->right;
-                while(temp->left)temp=temp->left;
-                int x=temp->val;
-                temp->val=root->val;root->val=x;
-                root->right= solve(root->right,key);
-            }
-          }
-          else{
-            TreeNode* temp=root->left;
-            while(temp->right)temp=temp->right;
-            int x=temp->val;
-            temp->val=root->val;root->val=x;
-            root->left= solve(root->left,key);
-          }
-        }
-        else if(root->val<key) root->right= deleteNode(root->right,key);
-        else root->left= deleteNode(root->left,key);
-        return root;
-    }
+    
     TreeNode* deleteNode(TreeNode* root, int key) {
         if(root==NULL)return root;
-        if(root->val!=key){
-          TreeNode* store=root;
-          solve(root,key);
-          return store;
+        if(root->val>key){
+            root->left=deleteNode(root->left,key); 
         }
-        else return solve(root,key);
+        else if(root->val<key) root->right=deleteNode(root->right,key);
+        else{
+            if(root->left==NULL) {
+                TreeNode* another=root->right;
+                delete root;
+                return another;
+            }
+            else if(root->right==NULL){
+                TreeNode* another=root->left;
+                delete root;
+                return another;
+
+            }
+            else{
+                //take out maximum right then leftmost
+                TreeNode* curr=root->right;
+                while(curr->left!=NULL)curr=curr->left;
+                
+                root->val=curr->val;
+                
+                root->right=deleteNode(root->right,root->val);
+                
+
+            }
+
+        }
+        return root;
 
     }
 };
