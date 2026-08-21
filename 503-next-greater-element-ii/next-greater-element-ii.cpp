@@ -5,6 +5,7 @@ public:
         int n=nums[nums.size()-1];
         //for n-1th element
         for(int i=nums.size()-2;i>=0;i--){
+            while(!st.empty() && st.top()<=nums[i])st.pop();
             st.push(nums[i]);
             
         }
