@@ -11,17 +11,15 @@ public:
         }
         cout<<st.size()<<endl;
         int i=nums.size()-1;
-        vector<int> ans;
+        vector<int> ans(i+1);
         while(i>=0){
             int x=nums[i];
             while(!st.empty() && st.top()<=x)st.pop();
-            if(st.empty())ans.push_back(-1);
-            else ans.push_back(st.top());
-            cout<<i<<" "<<st.size()<<endl;
+            ans[i]=(st.empty())?-1:st.top();
             st.push(nums[i]);
             i--;
         }
-        reverse(ans.begin(),ans.end());
+        // reverse(ans.begin(),ans.end());
         return ans;
     }
     //stack
