@@ -1,74 +1,75 @@
 class Solution {
 public:
-    const int MOD=1e9 +7;
-    long long sumSubarrayMins(vector<int>& arr) {
-        int n = arr.size();
-        vector<int> left(n), right(n);
+    int n;
+    const int MOD =1e9+7;
+    vector<int>  nse(vector<int>&arr){
         stack<int> st;
-
-        // Find previous less element count
-        for (int i = 0; i < n; i++) {
-            while (!st.empty() && arr[st.top()] > arr[i]) {
-                st.pop();
-            }
-            left[i] = st.empty() ? i + 1 : i - st.top();
+        vector<int> nsearr(n);
+        for(int i=n-1;i>=0;i--){
+            while(!st.empty() && arr[st.top()]>=arr[i])st.pop();
+            nsearr[i]=(st.empty())?n:st.top();
             st.push(i);
         }
-
-        while (!st.empty()) st.pop();
-
-        // Find next less element count
-        for (int i = n - 1; i >= 0; i--) {
-            while (!st.empty() && arr[st.top()] >= arr[i]) {
-                st.pop();
-            }
-            right[i] = st.empty() ? n - i : st.top() - i;
-            st.push(i);
-        }
-
-        long long ans = 0;
-        for (int i = 0; i < n; i++) {
-            long long contrib = (1LL * arr[i] * left[i] * right[i]) ;
-            ans = (ans + contrib);
-        }
-
-        return ans;
+        return nsearr;
     }
-
-    long long sumSubarrayMaxs(vector<int>& arr) {
-        int n = arr.size();
-        vector<int> left(n), right(n);
+    vector<int> pse(vector<int>&arr){
         stack<int> st;
-
-        // Find previous less element count
-        for (int i = 0; i < n; i++) {
-            while (!st.empty() && arr[st.top()] < arr[i]) {
-                st.pop();
-            }
-            left[i] = st.empty() ? i + 1 : i - st.top();
+        vector<int> psearr(n);
+        for(int i=0;i<n;i++){
+            while(!st.empty() && arr[st.top()]>arr[i])st.pop();
+            psearr[i]=(st.empty())?-1:st.top();
             st.push(i);
         }
-
-        while (!st.empty()) st.pop();
-
-        // Find next less element count
-        for (int i = n - 1; i >= 0; i--) {
-            while (!st.empty() && arr[st.top()] <= arr[i]) {
-                st.pop();
-            }
-            right[i] = st.empty() ? n - i : st.top() - i;
+        return psearr;
+    }
+    
+    vector<int>  nge(vector<int>&arr){
+        stack<int> st;
+        vector<int> nsearr(n);
+        for(int i=n-1;i>=0;i--){
+            while(!st.empty() && arr[st.top()]<=arr[i])st.pop();
+            nsearr[i]=(st.empty())?n:st.top();
             st.push(i);
         }
-
-        long long ans = 0;
-        for (int i = 0; i < n; i++) {
-            long long contrib = (1LL * arr[i] * left[i] * right[i]) ;
-            ans = (ans + contrib) ;
+        return nsearr;
+    }
+    vector<int> pge(vector<int>&arr){
+        stack<int> st;
+        vector<int> psearr(n);
+        for(int i=0;i<n;i++){
+            while(!st.empty() && arr[st.top()]<arr[i])st.pop();
+            psearr[i]=(st.empty())?-1:st.top();
+            st.push(i);
         }
-
-        return ans;
+        return psearr;
     }
     long long subArrayRanges(vector<int>& nums) {
-        return sumSubarrayMaxs(nums)-sumSubarrayMins(nums);
+        n=nums.size();
+        vector<int> ngearr=nge(nums);
+        vector<int> nsearr=nse(nums);
+        auto psearr=pse(nums);
+        auto pgearr=pge(nums);
+         
+
+        // vector<int> nsearr=nse(arr);
+        // vector<int> psearr=pse(arr);
+        long long mini=0LL;
+        for(int i=0;i<n;i++){
+           long long left=i-psearr[i];
+           long long right=nsearr[i]-i;
+           long long freq=(left*right);
+           mini=(mini+(freq*nums[i]));
+
+        }
+        long long maxi=0LL;
+        for(int i=0;i<n;i++){
+           long long left=i-pgearr[i];
+           long long right=ngearr[i]-i;
+           long long freq=(left*right);
+           maxi=(maxi+(freq*nums[i]));
+
+        }
+        long long ans=(maxi-mini);
+        return ans;
     }
 };
