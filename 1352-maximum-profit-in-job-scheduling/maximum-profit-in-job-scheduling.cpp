@@ -4,8 +4,18 @@ public:
     int solve(int i,vector<vector<int>> &arr,vector<int>&start){
         if(i>=start.size())return 0;
         if(ans[i]!=-1)return ans[i];
-        int nextindex=lower_bound(start.begin(),start.end(),arr[i][1])-start.begin();
+        int nextindex=arr.size();
+        int l=i+1;int h=arr.size();
         int s=arr[i][0];int e=arr[i][1];int cost=arr[i][2];
+        while(l<h){
+            int mid=(l+h)/2;
+            if(arr[mid][0]>=e){
+                nextindex=mid;
+                h=mid;
+            }
+            else l= mid+1;
+        }
+        
         //take it
         int take=0;int nottake=0; 
         take+=cost+solve(nextindex,arr,start);
