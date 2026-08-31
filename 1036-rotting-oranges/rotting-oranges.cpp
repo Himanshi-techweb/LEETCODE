@@ -1,42 +1,46 @@
 class Solution {
 public:
-    vector<vector<int>> rc={{-1,0},{0,-1},{1,0},{0,1}};
-    int orangesRotting(vector<vector<int>>& grid) {
-        int m=grid.size();int n=grid[0].size();
-       int fresh=0;
-       vector<vector<int>> visit=grid;
-       queue<pair<int,int>> q;
-       int cnt=0;
-       for(int i=0;i<grid.size();i++){
-        for(int j=0;j<grid[0].size();j++){
-            visit[i][j]=0;
-            if(grid[i][j]==1)fresh++;
-            else if(grid[i][j]==2){
-              q.push({i,j});
-              visit[i][j]=1;
+    vector<vector<int>> rc={{-1,0},{1,0},{0,-1},{0,1}};
+    int orangesRotting(vector<vector<int>>& arr) {
+        int m=arr.size();int n=arr[0].size();
+        int rotten =0;int fresh=0;
+        queue<pair<int,int>> q;
+        for(int i=0;i<m;i++){
+            for(int j=0;j<n;j++){
+                if(arr[i][j]==2){
+                    rotten++;
+                    q.push({i,j});
+                }
+                if(arr[i][j]==1)fresh++;
             }
         }
-       }
-       if(fresh==0)return 0;
-       while(!q.empty() && fresh>0){
-        int size=q.size();
-        for(int i=0;i<size;i++){
-           int r=q.front().first;int c=q.front().second;
-         q.pop();
-         bool flag=false;
-         for(auto it:rc){
-            int nr=it[0]+r;int nc=it[1]+c;
-            if(nr>=0 && nr<m && nc>=0 && nc<n && grid[nr][nc]==1 && visit[nr][nc]==0){
-                visit[nr][nc]=1;
-                q.push({nr,nc});
-                flag=true;
-                fresh--;
-            }  
-         }
+        if(fresh==0)return 0;
+        int cnt=0;
+        while(!q.empty()){
+            bool flag=false;
+            int size=q.size();
+            for(int i=0;i<size;i++){
+            auto front=q.front();
+            q.pop();
+            int r=front.first;
+            int c=front.second;
+            for(int i=0;i<4;i++){
+                int nr=r+rc[i][0];int nc=c+rc[i][1];
+                if(nr>=0 && nr<m && nc>=0 && nc<n && arr[nr][nc]==1){
+                    fresh--;  
+                    cout<<nr<<" "<<nc<<"another  ";
+                    q.push({nr,nc});
+                    arr[nr][nc]=2;
+                    flag=true;
+                }
+            }
+            
+            }
+            if(flag)cnt++;
         }
-         cnt++;
-       } 
-        if(fresh>0)return-1;
-        return cnt;
+        
+        if(fresh==0)return cnt;
+        
+        return -1;
     }
 };
