@@ -1,25 +1,28 @@
 class Solution {
 public:
-    bool dfs(int i,int parent,vector<int> &color,vector<vector<int>> &graph,vector<int> &visit){
-        for(auto it:graph[i]){
-            if(!visit[it]){
-                visit[it]=1;
-                color[it]=!color[i];
-                if(!dfs(it,i,color,graph,visit))return false;
-            }
-            else if(it!=parent && color[i]==color[it])return false;
-        }
-        return true;
-    }
     bool isBipartite(vector<vector<int>>& graph) {
-        vector<int> visit(graph.size(),0);
-        vector<int> color(graph.size());
-        for(int i=0;i<graph.size();i++){
-            if(!visit[i]){
-                visit[i]=1;
-                if(!dfs(i,-1,color,graph,visit))return false;
+        int n=graph.size();
+        vector<int> color(n,-1);
+        queue<int> q; 
+        for(int i=0;i<n;i++){
+            if(color[i]==-1){
+                q.push(i);
+                color[i]=0;
+                while(!q.empty()){
+                    auto front=q.front();
+                    q.pop();
+                   for(auto it:graph[front]){
+                    if(color[it]==-1){
+                        color[it]=!color[front];
+                        q.push(it);
+                    }
+                    else if(color[it]==color[front]){
+                        return false;
+                    }
+                   }
+                }
             }
-        } 
+        }
         return true;
     }
 };
