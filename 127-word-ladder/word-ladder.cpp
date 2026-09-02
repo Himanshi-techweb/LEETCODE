@@ -1,56 +1,32 @@
 class Solution {
 public:
-    // bool checkfunc(string str,set<string> &check,vector<char> &alpha,queue<pair<string,int>> & q,string end,int freq){ 
-    //   string copy=str;
-    //   bool occur=false;
-    //   for(int i=0;i<str.size();i++){
-    //     for(int j=0;j<alpha.size();j++){
-    //         str=copy;
-    //         str[i]=alpha[j];
-    //         if(check.find(str)!=check.end()){
-    //           if(str==end){
-    //             return true;
-    //           }
-    //           check.erase(str);
-    //           q.push({str,freq+1});
-    //         }
-    //     }
-    //   }
-    //   return false;  
-    // }
-    int ladderLength(string beginWord, string endWord, vector<string>& arr) {
-      vector<char> alpha={'a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q','r','s','t','u','v','w','x','y','z'};
-      set<string> check;
-      queue<pair<string,int>> q;
-      q.push({beginWord,1});
-      for(string x:arr){
-        check.insert(x);
-      }
-      int ans=0;
-      bool occur=false;
-      while(!q.empty()){
-        // pair<string,int> temp=q.front();
-        string str=q.front().first;
-        int freq=q.front().second;
-        q.pop();
-        // if(checkfunc(str,check,alpha,q,endWord,freq)==true){
-        //     return freq+1;
-        // 
-        string str1=str;
-        for(int i=0;i<str.size();i++){
-        for(int j=0;j<alpha.size();j++){
-            str=str1;
-            str[i]=alpha[j];
-            if(check.find(str)!=check.end()){
-              if(str==endWord){
-                return freq+1;
-              }
-              check.erase(str);
-              q.push({str,freq+1});
+    int ladderLength(string beginWord, string endWord, vector<string>& wordList) {
+        unordered_set<string > st;
+        for(auto it:wordList){
+            st.insert(it);
+        }
+        if(st.find(endWord)==st.end())return 0;
+        queue<pair<string,int>> q;
+        q.push({beginWord,1});
+        while(!q.empty()){
+            auto front=q.front();
+            auto str=front.first;
+            auto cnt=front.second;
+            if(str==endWord)return cnt;
+            
+            q.pop();
+            for(int i=0;i<str.size();i++){
+                char ori=str[i];
+                for(auto k=0;k<26;k++){
+                    str[i]=k+'a';
+                    if(st.find(str)!=st.end()){
+                        q.push({str,cnt+1});
+                        st.erase(str);
+                    }
+                }
+                str[i]=ori;
             }
         }
-      }
-      }  
-      return 0;
+        return 0;
     }
 };
