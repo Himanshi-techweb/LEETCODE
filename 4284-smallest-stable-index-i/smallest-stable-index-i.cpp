@@ -13,9 +13,6 @@ public:
         for(int i=0;i<n;i++){
             if(maxi[i]-mini[i]<=k)return i;
         }
-        for(int i=0;i<n;i++){
-            cout<<maxi[i] <<" "<<mini[i]<<endl;
-        }
         return -1;
     }
 };
