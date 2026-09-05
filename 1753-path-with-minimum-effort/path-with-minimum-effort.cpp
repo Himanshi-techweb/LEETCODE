@@ -19,7 +19,7 @@ public:
         for(auto it:rc){
             int nr=r+it[0];
             int nc=c+it[1];
-            if(nr>=0 & nr<m && nc>=0 && nc<n ){
+            if(nr>=0 && nr<m && nc>=0 && nc<n ){
                 int diff=abs(heights[r][c]-heights[nr][nc]);
                 int maxi=max(diff,dis[r][c]);
                 if(maxi<dis[nr][nc]){
