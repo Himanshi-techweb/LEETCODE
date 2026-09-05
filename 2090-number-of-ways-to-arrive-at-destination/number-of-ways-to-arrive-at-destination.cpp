@@ -2,33 +2,40 @@ class Solution {
 public:
     const int MOD=1e9 +7;
     int countPaths(int n, vector<vector<int>>& roads) {
-        vector< vector< pair<int,long long> > >  adj(n);
+        
+        vector<vector<pair<int,int>>> adj(n);
         for(auto it:roads){
-            adj[it[0]].push_back({it[1],it[2]});
-            adj[it[1]].push_back({it[0],it[2]}); 
+            int x=it[0];int y=it[1];int wt=it[2];
+            adj[x].push_back({y,wt});
+            adj[y].push_back({x,wt});
         }
-
-        priority_queue< pair<long long,long long>, vector<pair<long long,long long>> ,greater<pair<long long,long long>>> q;
-        vector<long long> dist(n,LLONG_MAX);
-        vector<long long> way(n,0);
-        dist[0]=0;way[0]=1;
+        using t=pair<long long,int>;
+        priority_queue<t,vector<t>,greater<t>> q;
         q.push({0,0});
+        vector<long long> dis(n,LLONG_MAX);
+        dis[0]=0;
+        vector<long long> count(n,0);
+        count[0]=1;
         while(!q.empty()){
-            auto front=q.top();q.pop();
-            long long u=front.second;long long wt=front.first;
-            if(wt>dist[u])continue;
-            for(auto it:adj[u]){
-                long long v=it.first;long long time=it.second;
-                if(dist[v]>dist[u]+time){
-                    dist[v]=dist[u]+time;
-                    way[v]=way[u]%MOD;
-                    q.push({dist[v],v});
+            auto node=q.top().second;
+            auto cnt=q.top().first;
+            q.pop();
+            if(cnt>dis[node])continue;
+            for(auto it:adj[node]){
+                int next=it.first;int wt=it.second;
+                long long x=dis[node]+wt;
+                if(x<dis[next]){
+                    dis[next]=x;
+                    count[next]=count[node]%MOD;
+                    q.push({dis[next],next});
                 }
-                else if(dist[v]==dist[u]+time){
-                    way[v]=(way[v]+way[u])%MOD;
+                else if(x==dis[next]){
+                    count[next]=(count[next]+count[node])%MOD;
+                    // q.push({dis[next],next});
                 }
             }
         }
-        return way[n-1]%MOD;
+        return count[n-1];
+
     }
 };
