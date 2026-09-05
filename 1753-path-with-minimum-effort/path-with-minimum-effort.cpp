@@ -1,28 +1,35 @@
 class Solution {
 public:
+    int ans=INT_MAX;
     vector<vector<int>> rc={{0,-1},{-1,0},{0,1},{1,0}};
     int minimumEffortPath(vector<vector<int>>& heights) {
-      int m=heights.size();int n=heights[0].size();
-      priority_queue<vector<int>,vector<vector<int>> ,greater<vector<int>> >q;
-      q.push({0,0,0});//height,row,col
-      int mini=INT_MAX;
-      vector<vector<int>> dist(m,vector<int> (n,INT_MAX));
-      dist[0][0]=0;
-      while(!q.empty()){
-        auto front=q.top();q.pop();
-        int effort=front[0];int r=front[1];int c=front[2];
-        if(r==m-1 && c==n-1)return effort;
+       int m=heights.size();int n=heights[0].size();
+       if(m==1 && n==1)return 0;
+       queue<pair<int,pair<int,int>>> q;
+       q.push({0,{0,0}});
+       vector<vector<int>> dis(m,vector<int>(n,INT_MAX));
+       dis[0][0]=0;
+       while(!q.empty()){
+        int cnt=q.front().first;
+        int r=q.front().second.first;
+        int c=q.front().second.second;
+        if(r==m-1 && c==n-1)ans=min(ans,cnt);
+        q.pop();
         for(auto it:rc){
-            int nr=it[0]+r;int nc=it[1]+c;
-            if(nr>=0 && nr<m && nc>=0 && nc<n ){
-                int neweffort=max(abs(heights[nr][nc]-heights[r][c]),effort);
-                if(dist[nr][nc]>neweffort){
-                  dist[nr][nc]=neweffort;
-                  q.push({neweffort,nr,nc});
+            int nr=r+it[0];
+            int nc=c+it[1];
+            if(nr>=0 & nr<m && nc>=0 && nc<n ){
+                int diff=abs(heights[r][c]-heights[nr][nc]);
+                int maxi=max(diff,dis[r][c]);
+                if(maxi<dis[nr][nc]){
+                    dis[nr][nc]=maxi;
+                    q.push({dis[nr][nc],{nr,nc}});
                 }
             }
         }
-      }
-      return mini; 
+
+
+       } 
+       return ans;
     }
 };
