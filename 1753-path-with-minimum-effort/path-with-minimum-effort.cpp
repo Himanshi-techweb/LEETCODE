@@ -5,14 +5,15 @@ public:
     int minimumEffortPath(vector<vector<int>>& heights) {
        int m=heights.size();int n=heights[0].size();
        if(m==1 && n==1)return 0;
-       queue<pair<int,pair<int,int>>> q;
+       using t=pair<int,pair<int,int>>;
+       priority_queue<t,vector<t>,greater<t>> q;
        q.push({0,{0,0}});
        vector<vector<int>> dis(m,vector<int>(n,INT_MAX));
        dis[0][0]=0;
        while(!q.empty()){
-        int cnt=q.front().first;
-        int r=q.front().second.first;
-        int c=q.front().second.second;
+        int cnt=q.top().first;
+        int r=q.top().second.first;
+        int c=q.top().second.second;
         if(r==m-1 && c==n-1)ans=min(ans,cnt);
         q.pop();
         for(auto it:rc){
