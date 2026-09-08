@@ -1,20 +1,15 @@
 class Solution {
 public:
-    int jump(vector<int>& arr) {
-       int l=0;int r=0;int jump=0;
-       while( l<=r && r<arr.size()-1){
-          //maximum in range of l and r with index;
-          r=l+arr[l];
-          jump++;
-          if(r>=arr.size()-1)break;
-          int maxi=arr[l]+l;int ix=0;
-          for(int k=l+1;k<=r;k++){
-            if(arr[k]+k>=maxi){
-              maxi=arr[k]+k;ix=k;
-            } 
-          }
-          l=ix;
-       } 
-       return jump;
+    int jump(vector<int>& nums) {
+        if(nums.size()==1)return 0;
+        int cnt=0;int maxloc=0;int currend=0;
+        for(int i=0;i<nums.size()-1;i++){
+           maxloc=max(maxloc,i+nums[i]);
+           if(i==currend){
+            cnt++;
+            currend=maxloc;
+           }  
+        }
+        return cnt;
     }
 };
